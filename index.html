@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#171819">
+<meta name="theme-color" content="#141516">
 <title>My CD Wallet</title>
 
 <style>
 :root{
-  --bg:#171819;
-  --ink:#eee;
-  --muted:#9b9d9f;
+  --header:50px;
+  --toolbar:64px;
+  --bg:#141516;
 }
 
 *{
@@ -20,298 +20,397 @@
 
 html,body{
   margin:0;
-  min-height:100%;
+  width:100%;
+  height:100%;
+  overflow:hidden;
   background:var(--bg);
-  color:var(--ink);
+  color:#eee;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
-  overflow-x:hidden;
 }
 
 body{
-  padding-bottom:calc(78px + env(safe-area-inset-bottom));
-  touch-action:pan-y;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
 }
 
+/* HEADER */
+
 header{
-  height:55px;
-  padding:15px 18px 7px;
+  height:var(--header);
+  flex:0 0 var(--header);
+  padding:12px 15px 6px;
   display:flex;
   align-items:end;
   justify-content:space-between;
 }
 
 h1{
-  font-size:15px;
-  letter-spacing:.12em;
   margin:0;
+  font-size:14px;
+  letter-spacing:.14em;
   font-weight:650;
 }
 
 #count{
   font-size:10px;
-  color:#9b9d9f;
-  letter-spacing:.08em;
+  color:#929598;
+  letter-spacing:.1em;
 }
 
+/* WALLET AREA */
+
 .stage{
-  position:relative;
-  margin:2px auto 8px;
-  width:min(96vw,470px);
-  height:min(142vw,650px);
-  min-height:520px;
-  perspective:1000px;
+  flex:1 1 auto;
+  min-height:0;
+  width:100%;
+  padding:2px 8px 6px;
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
 }
 
 .case{
-  position:absolute;
-  inset:0;
-  border-radius:21px;
-  padding:18px 16px 21px;
+  position:relative;
+  width:100%;
+  max-width:480px;
+  height:100%;
+  min-height:0;
+  border-radius:20px;
 
+  /* woven black nylon */
   background:
     radial-gradient(
-      circle at 20% 12%,
-      rgba(255,255,255,.035),
-      transparent 25%
+      ellipse at 25% 15%,
+      rgba(255,255,255,.055),
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 80% 75%,
+      rgba(0,0,0,.45),
+      transparent 50%
     ),
     repeating-linear-gradient(
-      105deg,
-      rgba(255,255,255,.018) 0 1px,
-      rgba(0,0,0,.018) 1px 3px
+      45deg,
+      rgba(255,255,255,.025) 0px,
+      rgba(255,255,255,.025) 1px,
+      rgba(0,0,0,.04) 1px,
+      rgba(0,0,0,.04) 3px
     ),
-    linear-gradient(#222425,#18191a);
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,.012) 0px,
+      rgba(255,255,255,.012) 1px,
+      rgba(0,0,0,.025) 1px,
+      rgba(0,0,0,.025) 3px
+    ),
+    #202223;
 
-  border:2px solid #090a0a;
+  border:2px solid #080909;
 
   box-shadow:
-    0 10px 25px #0009,
-    inset 0 0 0 2px #303234,
-    inset 0 0 18px #000;
+    0 7px 18px rgba(0,0,0,.7),
+    inset 0 0 0 2px #3a3c3e,
+    inset 0 0 25px rgba(0,0,0,.8);
 }
 
-.case:before{
-  content:"";
-  position:absolute;
-  inset:7px;
-  border:2px dashed #4c4e50;
-  border-radius:15px;
-  opacity:.72;
-  pointer-events:none;
-}
+/* zipper */
 
 .case:after{
   content:"";
   position:absolute;
-  inset:-4px;
-  border-radius:24px;
-  border:4px ridge #2f3031;
+  inset:5px;
+  border-radius:15px;
+  border:3px double #676a6c;
+  opacity:.7;
+  pointer-events:none;
+}
+
+/* stitching */
+
+.case:before{
+  content:"";
+  position:absolute;
+  inset:11px;
+  border-radius:12px;
+  border:2px dashed rgba(155,158,160,.38);
   pointer-events:none;
 }
 
 .brand{
   position:absolute;
+  z-index:10;
+  top:13px;
   left:27px;
-  top:12px;
-  font-size:8px;
-  letter-spacing:.17em;
-  color:#8b8d8e;
-  text-shadow:0 1px #000;
-  z-index:8;
+  font-size:7px;
+  letter-spacing:.18em;
+  color:#949799;
+  text-shadow:0 1px 1px #000;
 }
 
-.stack{
+/* stacked pages behind current page */
+
+.page-stack{
   position:absolute;
+  z-index:1;
+  top:35px;
   left:27px;
-  right:22px;
-  top:39px;
-  bottom:30px;
-  border-radius:5px;
-  background:#0e0f10;
+  right:20px;
+  bottom:24px;
+  border-radius:4px;
+
+  background:#151617;
 
   box-shadow:
-    5px 6px 0 #353739,
-    8px 9px 0 #111,
-    11px 12px 0 #2a2c2d;
+    3px 3px 0 rgba(190,195,195,.15),
+    6px 6px 0 #111,
+    8px 8px 0 rgba(190,195,195,.1);
+}
+
+/* ACTIVE PLASTIC PAGE */
+
+#sheetHost{
+  position:absolute;
+  z-index:5;
+  top:31px;
+  bottom:27px;
+  left:20px;
+  right:20px;
 }
 
 .sheet{
   position:absolute;
-  left:23px;
-  right:23px;
-  top:35px;
-  bottom:35px;
-  border-radius:5px;
-  transform-origin:50% 100%;
+  inset:0;
+  transform-origin:50% 92%;
   will-change:transform,opacity;
   touch-action:none;
   user-select:none;
 }
 
-.sheet.current{
-  z-index:6;
-}
-
 .plastic{
   position:absolute;
   inset:0;
-  padding:13px 10px 17px;
+
+  padding:8px;
 
   display:grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:1fr 1fr;
-  gap:12px 9px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(3,minmax(0,1fr));
+
+  gap:7px;
+
+  border-radius:3px;
 
   background:
     linear-gradient(
-      115deg,
-      rgba(255,255,255,.12),
-      rgba(255,255,255,.015) 25%,
-      rgba(255,255,255,.07) 48%,
-      rgba(255,255,255,.015) 70%
+      112deg,
+      rgba(255,255,255,.11) 0%,
+      rgba(255,255,255,.025) 18%,
+      rgba(255,255,255,.02) 45%,
+      rgba(255,255,255,.075) 63%,
+      rgba(255,255,255,.018) 82%
     ),
-    rgba(210,215,216,.07);
+    rgba(190,200,202,.065);
 
-  border:1px solid rgba(230,235,235,.28);
+  border:1px solid rgba(225,230,230,.32);
 
   box-shadow:
-    inset 0 0 16px rgba(255,255,255,.055),
-    0 3px 9px #0008;
-
-  backdrop-filter:blur(.15px);
+    0 3px 8px rgba(0,0,0,.7),
+    inset 0 0 13px rgba(255,255,255,.055);
 }
+
+/* vertical sleeve seam */
+
+.plastic:before{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:50%;
+  border-left:1px solid rgba(255,255,255,.18);
+  border-right:1px solid rgba(0,0,0,.2);
+  pointer-events:none;
+}
+
+/* faint overall plastic reflection */
 
 .plastic:after{
   content:"";
   position:absolute;
-  left:50%;
-  top:0;
-  bottom:0;
-  border-left:1px solid rgba(255,255,255,.17);
-  box-shadow:1px 0 rgba(0,0,0,.24);
+  inset:0;
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      125deg,
+      rgba(255,255,255,.07),
+      transparent 18%,
+      transparent 70%,
+      rgba(255,255,255,.025)
+    );
 }
+
+/* EACH CD POCKET */
 
 .album{
   position:relative;
   min-width:0;
+  min-height:0;
+  padding:5px;
+
   display:flex;
-  flex-direction:column;
+  align-items:center;
   justify-content:center;
-  cursor:pointer;
-  border:1px solid rgba(255,255,255,.12);
-  padding:5px 5px 8px;
-  background:rgba(8,8,8,.17);
+
   overflow:hidden;
+
+  border:
+    1px solid rgba(225,230,230,.19);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.035),
+      rgba(0,0,0,.04)
+    );
+
+  box-shadow:
+    inset 0 0 7px rgba(255,255,255,.025);
 }
+
+/* pocket bottom seam */
+
+.album:before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  border-bottom:1px solid rgba(255,255,255,.16);
+  pointer-events:none;
+}
+
+/* clear sleeve reflection */
 
 .album:after{
   content:"";
   position:absolute;
   inset:0;
+  pointer-events:none;
 
   background:
     linear-gradient(
       120deg,
-      rgba(255,255,255,.13),
-      transparent 24%,
-      transparent 65%,
-      rgba(255,255,255,.04)
+      rgba(255,255,255,.11),
+      transparent 23%,
+      transparent 68%,
+      rgba(255,255,255,.025)
     );
-
-  pointer-events:none;
 }
 
 .cover{
   display:block;
-  width:100%;
-  aspect-ratio:1;
+
+  /* square regardless of pocket dimensions */
+  width:min(100%,100cqh);
+  max-width:100%;
+  max-height:100%;
+  aspect-ratio:1 / 1;
+
   object-fit:cover;
-  background:#303234;
-  box-shadow:0 2px 5px #0009;
+
+  background:
+    linear-gradient(135deg,#343638,#242627);
+
+  box-shadow:
+    0 2px 5px rgba(0,0,0,.85);
+
   pointer-events:none;
 }
 
-.meta{
-  padding:5px 2px 0;
-  line-height:1.12;
-  pointer-events:none;
+/* loading indicator */
+
+.cover.loading{
+  opacity:.45;
 }
 
-.artist{
-  font-size:10px;
-  font-weight:700;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.title{
-  font-size:9px;
-  color:#c3c4c4;
-  margin-top:2px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.pageNum{
+.page-number{
   position:absolute;
+  z-index:10;
   bottom:9px;
   left:0;
   right:0;
+
   text-align:center;
-  color:#777a7b;
-  font-size:9px;
-  letter-spacing:.1em;
-  z-index:9;
+
+  font-size:8px;
+  letter-spacing:.12em;
+  color:#747779;
 }
 
-.hint{
-  text-align:center;
-  color:#747779;
-  font-size:9px;
-  letter-spacing:.08em;
-  margin-top:7px;
-}
+/* BOTTOM TOOLBAR */
 
 .toolbar{
-  position:fixed;
-  z-index:30;
-  left:0;
-  right:0;
-  bottom:0;
-  height:calc(65px + env(safe-area-inset-bottom));
-  padding:7px 4px env(safe-area-inset-bottom);
+  flex:0 0 calc(var(--toolbar) + env(safe-area-inset-bottom));
+
+  height:calc(var(--toolbar) + env(safe-area-inset-bottom));
+
+  padding:
+    5px
+    3px
+    env(safe-area-inset-bottom);
+
   display:flex;
-  background:#18191aee;
+
+  background:#171819;
+
   border-top:1px solid #393b3d;
-  backdrop-filter:blur(12px);
+
+  z-index:30;
 }
 
 .tool{
   flex:1;
+  min-width:0;
+
   border:0;
   background:none;
-  color:#d9d9d9;
+  color:#d8d8d8;
+
+  padding:2px;
+
   font-size:9px;
-  letter-spacing:.04em;
+  letter-spacing:.03em;
   text-transform:uppercase;
 }
 
 .tool b{
   display:block;
+  height:26px;
+  line-height:25px;
+
   font-size:19px;
   font-weight:400;
-  line-height:25px;
 }
+
+/* PANELS */
 
 .panel{
   display:none;
+
   position:fixed;
-  z-index:50;
+  z-index:100;
+
   inset:0;
-  background:#1b1c1df5;
-  padding:22px 18px calc(30px + env(safe-area-inset-bottom));
-  overflow:auto;
+
+  padding:
+    22px
+    18px
+    calc(30px + env(safe-area-inset-bottom));
+
+  overflow-y:auto;
+
+  background:#1b1c1df8;
 }
 
 .panel.open{
@@ -319,28 +418,35 @@ h1{
 }
 
 .panel h2{
-  font-size:21px;
   margin:20px 0;
+  font-size:21px;
 }
 
 .close{
   position:absolute;
   right:14px;
   top:8px;
-  color:white;
-  background:none;
+
   border:0;
+  background:none;
+  color:#fff;
+
   font-size:32px;
 }
 
 .option{
   width:100%;
+
+  padding:15px 2px;
+
   text-align:left;
+
   border:0;
   border-bottom:1px solid #3e4042;
+
   background:none;
   color:#eee;
-  padding:15px 2px;
+
   font-size:15px;
 }
 
@@ -349,40 +455,75 @@ h1{
 }
 
 .section{
+  margin:22px 0 5px;
+
   color:#8f9294;
+
   font-size:10px;
   text-transform:uppercase;
   letter-spacing:.12em;
-  margin:22px 0 5px;
 }
 
 input{
   width:100%;
+
   padding:14px;
+
   border:1px solid #484a4c;
   border-radius:7px;
+
   background:#292b2d;
   color:#fff;
+
   font-size:16px;
 }
 
 .empty{
-  grid-column:1/3;
+  grid-column:1 / 3;
+  grid-row:1 / 4;
+
   align-self:center;
+
   text-align:center;
   color:#888;
 }
 
+/* small phones */
+
 @media(max-height:700px){
-  .stage{
-    height:calc(100vh - 145px);
-    min-height:455px;
+
+  :root{
+    --header:43px;
+    --toolbar:58px;
   }
 
-  .sheet{
-    top:31px;
-    bottom:31px;
+  header{
+    padding-top:8px;
   }
+
+  #sheetHost{
+    top:28px;
+    bottom:23px;
+  }
+
+  .page-stack{
+    top:31px;
+    bottom:21px;
+  }
+
+  .plastic{
+    gap:5px;
+    padding:6px;
+  }
+
+  .album{
+    padding:4px;
+  }
+
+  .brand{
+    top:10px;
+  }
+
 }
 </style>
 </head>
@@ -390,83 +531,108 @@ input{
 <body>
 
 <header>
-  <h1>MY CD WALLET</h1>
-  <div id="count"></div>
+
+<h1>MY CD WALLET</h1>
+
+<div id="count"></div>
+
 </header>
 
-<div class="stage" id="stage">
-  <div class="case">
 
-    <div class="brand">
-      COMPACT DISC WALLET
-    </div>
+<main class="stage">
 
-    <div class="stack"></div>
+<div class="case">
 
-    <div id="sheetHost"></div>
-
-    <div class="pageNum" id="pageNum"></div>
-
-  </div>
+<div class="brand">
+COMPACT DISC WALLET
 </div>
 
-<div class="hint">
-  SWIPE THE PAGE
+<div class="page-stack"></div>
+
+<div id="sheetHost"></div>
+
+<div
+class="page-number"
+id="pageNumber">
 </div>
+
+</div>
+
+</main>
+
 
 <nav class="toolbar">
 
-<button class="tool" onclick="randomAlbum()">
-  <b>↯</b>
-  Random
+<button
+class="tool"
+onclick="randomAlbum()">
+<b>↯</b>
+Random
 </button>
 
-<button class="tool" onclick="openPanel('filter')">
-  <b>≡</b>
-  Filter
+<button
+class="tool"
+onclick="openPanel('filter')">
+<b>≡</b>
+Filter
 </button>
 
-<button class="tool" onclick="openPanel('sort')">
-  <b>↕</b>
-  Sort
+<button
+class="tool"
+onclick="openPanel('sort')">
+<b>↕</b>
+Sort
 </button>
 
-<button class="tool" onclick="openPanel('search')">
-  <b>⌕</b>
-  Search
+<button
+class="tool"
+onclick="openPanel('search')">
+<b>⌕</b>
+Search
 </button>
 
-<button class="tool" onclick="openPanel('add')">
-  <b>＋</b>
-  Add
+<button
+class="tool"
+onclick="openPanel('add')">
+<b>＋</b>
+Add
 </button>
 
 </nav>
 
 
-<div class="panel" id="sort">
+<div
+class="panel"
+id="sort">
 
-<button class="close"
-onclick="closePanels()">×</button>
+<button
+class="close"
+onclick="closePanels()">
+×
+</button>
 
 <h2>Sort</h2>
 
-<button class="option"
+<button
+class="option"
 onclick="setSort('az')">
 Artist A–Z
 </button>
 
-<button class="option"
+<button
+class="option"
 onclick="setSort('za')">
 Artist Z–A
 </button>
 
-<button class="option"
+<button
+class="option"
 onclick="setSort('old')">
 Release date — oldest first
 </button>
 
-<button class="option"
+<button
+class="option"
 onclick="setSort('new')">
 Release date — newest first
 </button>
@@ -474,10 +640,15 @@ Release date — newest first
 </div>
 
 
-<div class="panel" id="search">
+<div
+class="panel"
+id="search">
 
-<button class="close"
-onclick="closePanels()">×</button>
+<button
+class="close"
+onclick="closePanels()">
+×
+</button>
 
 <h2>Search</h2>
 
@@ -489,10 +660,15 @@ oninput="page=0;render()">
 </div>
 
 
-<div class="panel" id="filter">
+<div
+class="panel"
+id="filter">
 
-<button class="close"
-onclick="closePanels()">×</button>
+<button
+class="close"
+onclick="closePanels()">
+×
+</button>
 
 <h2>Filter</h2>
 
@@ -501,15 +677,20 @@ onclick="closePanels()">×</button>
 </div>
 
 
-<div class="panel" id="add">
+<div
+class="panel"
+id="add">
 
-<button class="close"
-onclick="closePanels()">×</button>
+<button
+class="close"
+onclick="closePanels()">
+×
+</button>
 
 <h2>Add Album</h2>
 
 <p style="color:#aaa">
-Album search/add is coming next.
+Album search/add comes next.
 </p>
 
 </div>
@@ -603,29 +784,34 @@ moods:x[4]
 
 
 let page=0;
-
 let sort="az";
 
 let genre=null;
-
 let mood=null;
-
 let decade=null;
 
 let visibleAlbums=[];
 
 let dragging=false;
-
 let startX=0;
-
 let startY=0;
-
 let dx=0;
 
 let ignoreClick=false;
 
+const perPage=6;
+
 const host=
 document.getElementById("sheetHost");
+
+
+function normalize(s){
+
+return s
+.toLowerCase()
+.replace(/[^a-z0-9]/g,"");
+
+}
 
 
 function spotify(a){
@@ -639,36 +825,178 @@ a.artist+" "+a.album
 }
 
 
-function artwork(a,img){
+/*
+Better artwork matching:
 
-fetch(
-"https://itunes.apple.com/search?term="+
+Instead of taking the first iTunes result,
+we inspect several results and choose the
+closest artist/title match.
+*/
+
+async function artwork(a,img){
+
+const query=
 encodeURIComponent(
 a.artist+" "+a.album
-)+
-"&entity=album&limit=1"
-)
+);
 
-.then(r=>r.json())
+try{
 
-.then(d=>{
+const response=
+await fetch(
+"https://itunes.apple.com/search?term="+
+query+
+"&entity=album&limit=15"
+);
 
-if(d.results &&
-d.results[0]){
+const data=
+await response.json();
+
+if(
+!data.results ||
+!data.results.length
+){
+return;
+}
+
+
+const targetArtist=
+normalize(a.artist);
+
+const targetAlbum=
+normalize(a.album);
+
+
+let best=null;
+let bestScore=-1;
+
+
+for(
+const result
+of data.results
+){
+
+const ra=
+normalize(
+result.artistName || ""
+);
+
+const rt=
+normalize(
+result.collectionName || ""
+);
+
+
+let score=0;
+
+
+if(
+ra===targetArtist
+){
+score+=10;
+}
+
+else if(
+ra.includes(targetArtist) ||
+targetArtist.includes(ra)
+){
+score+=6;
+}
+
+
+if(
+rt===targetAlbum
+){
+score+=12;
+}
+
+else if(
+rt.includes(targetAlbum) ||
+targetAlbum.includes(rt)
+){
+score+=7;
+}
+
+
+/*
+Slight preference for releases near
+the expected original year.
+*/
+
+if(
+result.releaseDate
+){
+
+const y=
+new Date(
+result.releaseDate
+).getFullYear();
+
+const difference=
+Math.abs(
+y-a.year
+);
+
+if(
+difference===0
+){
+score+=3;
+}
+
+else if(
+difference<=2
+){
+score+=2;
+}
+
+}
+
+
+if(
+score>bestScore
+){
+
+bestScore=score;
+best=result;
+
+}
+
+}
+
+
+if(
+best &&
+best.artworkUrl100
+){
 
 img.src=
-d.results[0]
-.artworkUrl100
+best.artworkUrl100
+.replace(
+"100x100bb",
+"600x600bb"
+)
 .replace(
 "100x100",
 "600x600"
 );
 
+img.classList.remove(
+"loading"
+);
+
 }
 
-})
+}
 
-.catch(()=>{});
+catch(error){
+
+console.log(
+"Artwork error:",
+a.artist,
+a.album
+);
+
+}
 
 }
 
@@ -677,10 +1005,13 @@ function filtered(){
 
 const q=
 (
-document.getElementById("searchBox").value
+document
+.getElementById("searchBox")
+.value
 ||
 ""
-).toLowerCase();
+)
+.toLowerCase();
 
 
 let v=
@@ -701,48 +1032,80 @@ Math.floor(a.year/10)*10===decade)
 
 &&
 
-(!q ||
-(a.artist+" "+a.album)
+(
+!q ||
+
+(
+a.artist+
+" "+
+a.album
+)
 .toLowerCase()
-.includes(q))
+.includes(q)
+
+)
 
 );
 
 
-if(sort==="az")
+if(
+sort==="az"
+){
 
 v.sort(
 (a,b)=>
-a.artist.localeCompare(b.artist)
+a.artist.localeCompare(
+b.artist
+)
 );
 
+}
 
-if(sort==="za")
+
+if(
+sort==="za"
+){
 
 v.sort(
 (a,b)=>
-b.artist.localeCompare(a.artist)
+b.artist.localeCompare(
+a.artist
+)
 );
 
+}
 
-if(sort==="old")
+
+if(
+sort==="old"
+){
 
 v.sort(
 (a,b)=>
 a.year-b.year
 ||
-a.artist.localeCompare(b.artist)
+a.artist.localeCompare(
+b.artist
+)
 );
 
+}
 
-if(sort==="new")
+
+if(
+sort==="new"
+){
 
 v.sort(
 (a,b)=>
 b.year-a.year
 ||
-a.artist.localeCompare(b.artist)
+a.artist.localeCompare(
+b.artist
+)
 );
+
+}
 
 
 return v;
@@ -755,20 +1118,22 @@ function makeSheet(items){
 const sheet=
 document.createElement("div");
 
-sheet.className=
-"sheet current";
+sheet.className="sheet";
 
 
 const plastic=
 document.createElement("div");
 
-plastic.className=
-"plastic";
+plastic.className="plastic";
 
-sheet.appendChild(plastic);
+sheet.appendChild(
+plastic
+);
 
 
-if(!items.length){
+if(
+!items.length
+){
 
 plastic.innerHTML=
 '<div class="empty">No albums found</div>';
@@ -780,55 +1145,54 @@ return sheet;
 
 items.forEach(a=>{
 
-const el=
+const pocket=
 document.createElement("div");
 
-el.className=
+pocket.className=
 "album";
 
 
-el.innerHTML=`
+const img=
+document.createElement("img");
 
-<img class="cover" alt="">
+img.className=
+"cover loading";
 
-<div class="meta">
-
-<div class="artist"></div>
-
-<div class="title"></div>
-
-</div>
-
-`;
+img.alt=
+a.artist+
+" — "+
+a.album;
 
 
-el.querySelector(".artist")
-.textContent=
-a.artist;
+pocket.appendChild(
+img
+);
 
 
-el.querySelector(".title")
-.textContent=
-a.album+" · "+a.year;
-
-
-el.addEventListener(
+pocket.addEventListener(
 "click",
 ()=>{
 
-if(!ignoreClick)
+if(
+!ignoreClick
+){
+
 spotify(a);
+
+}
 
 }
 );
 
 
-plastic.appendChild(el);
+plastic.appendChild(
+pocket
+);
 
 
 artwork(
 a,
-el.querySelector("img")
+img
 );
 
 });
@@ -845,36 +1209,46 @@ visibleAlbums=
 filtered();
 
 
-const pages=
+const totalPages=
 Math.max(
 1,
 Math.ceil(
-visibleAlbums.length/4
+visibleAlbums.length /
+perPage
 )
 );
 
 
+if(
+page>=totalPages
+){
+
 page=
-Math.min(
-page,
-pages-1
-);
+totalPages-1;
+
+}
 
 
 host.innerHTML="";
 
 
-host.appendChild(
+const start=
+page*perPage;
 
-makeSheet(
 
+const items=
 visibleAlbums.slice(
-page*4,
-page*4+4
-)
+start,
+start+perPage
+);
 
-)
 
+const sheet=
+makeSheet(items);
+
+
+host.appendChild(
+sheet
 );
 
 
@@ -886,16 +1260,16 @@ visibleAlbums.length+
 
 
 document
-.getElementById("pageNum")
+.getElementById("pageNumber")
 .textContent=
 "PAGE "+
 (page+1)+
-" OF "+
-pages;
+" / "+
+totalPages;
 
 
 bindSwipe(
-host.firstChild
+sheet
 );
 
 }
@@ -909,9 +1283,11 @@ e=>{
 
 dragging=true;
 
-startX=e.clientX;
+startX=
+e.clientX;
 
-startY=e.clientY;
+startY=
+e.clientY;
 
 dx=0;
 
@@ -932,8 +1308,11 @@ sheet.addEventListener(
 "pointermove",
 e=>{
 
-if(!dragging)
+if(
+!dragging
+){
 return;
+}
 
 
 dx=
@@ -944,8 +1323,13 @@ const dy=
 e.clientY-startY;
 
 
-if(Math.abs(dx)>8)
+if(
+Math.abs(dx)>8
+){
+
 ignoreClick=true;
+
+}
 
 
 if(
@@ -956,12 +1340,20 @@ Math.abs(dy)
 e.preventDefault();
 
 
-const rot=
-dx/22;
+const rotation=
+dx/28;
+
+
+const lift=
+Math.min(
+10,
+Math.abs(dx)/18
+);
 
 
 sheet.style.transform=
-`translateX(${dx}px) rotate(${rot}deg)`;
+`translate3d(${dx}px,-${lift}px,0)
+ rotate(${rotation}deg)`;
 
 }
 
@@ -973,8 +1365,11 @@ sheet.addEventListener(
 "pointerup",
 ()=>{
 
-if(!dragging)
+if(
+!dragging
+){
 return;
+}
 
 
 dragging=false;
@@ -982,8 +1377,8 @@ dragging=false;
 
 const threshold=
 Math.min(
-95,
-innerWidth*.22
+90,
+window.innerWidth*.2
 );
 
 
@@ -1001,17 +1396,8 @@ sheet
 
 else{
 
-sheet.style.transition=
-"transform .18s ease";
-
-
-sheet.style.transform=
-"translateX(0) rotate(0)";
-
-
-setTimeout(
-()=>ignoreClick=false,
-220
+snapBack(
+sheet
 );
 
 }
@@ -1026,10 +1412,9 @@ sheet.addEventListener(
 
 dragging=false;
 
-sheet.style.transition=
-"transform .18s ease";
-
-sheet.style.transform="";
+snapBack(
+sheet
+);
 
 }
 );
@@ -1037,37 +1422,57 @@ sheet.style.transform="";
 }
 
 
-function turn(dir,sheet){
-
-const pages=
-Math.ceil(
-visibleAlbums.length/4
-);
-
-
-if(
-
-(dir===1 &&
-page>=pages-1)
-
-||
-
-(dir===-1 &&
-page<=0)
-
-){
+function snapBack(sheet){
 
 sheet.style.transition=
-"transform .22s cubic-bezier(.2,.8,.2,1)";
+"transform .18s cubic-bezier(.2,.8,.2,1)";
 
 
 sheet.style.transform=
-"translateX(0) rotate(0)";
+"translate3d(0,0,0) rotate(0deg)";
 
 
 setTimeout(
-()=>ignoreClick=false,
-250
+()=>{
+
+ignoreClick=false;
+
+},
+210
+);
+
+}
+
+
+function turn(
+direction,
+sheet
+){
+
+const totalPages=
+Math.ceil(
+visibleAlbums.length /
+perPage
+);
+
+
+const atEnd=
+direction===1 &&
+page>=totalPages-1;
+
+
+const atStart=
+direction===-1 &&
+page<=0;
+
+
+if(
+atEnd ||
+atStart
+){
+
+snapBack(
+sheet
 );
 
 return;
@@ -1076,80 +1481,87 @@ return;
 
 
 sheet.style.transition=
-"transform .26s ease-in, opacity .24s ease-in";
+"transform .24s ease-in, opacity .2s ease-in";
+
+
+sheet.style.opacity=
+".15";
 
 
 sheet.style.transform=
-`translateX(${
-dir===1
-?
-"-125vw"
-:
-"125vw"
-}) rotate(${
-dir===1
-?
-"-16"
-:
-"16"
-}deg)`;
+`
+translate3d(
+${direction===1 ? "-125vw" : "125vw"},
+-15px,
+0
+)
+rotate(
+${direction===1 ? "-13deg" : "13deg"}
+)
+`;
 
 
-sheet.style.opacity=".25";
+setTimeout(
+()=>{
 
-
-setTimeout(()=>{
-
-page+=dir;
+page+=direction;
 
 render();
 
 
-const n=
+const next=
 host.firstChild;
 
 
-n.style.transition=
+next.style.transition=
 "none";
 
 
-n.style.transform=
-`translateX(${
-dir===1
-?
-"18px"
-:
-"-18px"
-}) rotate(${
-dir===1
-?
-"1.5"
-:
-"-1.5"
-}deg)`;
+next.style.transform=
+`
+translate3d(
+${direction===1 ? "22px" : "-22px"},
+0,
+0
+)
+rotate(
+${direction===1 ? "1.5deg" : "-1.5deg"}
+)
+`;
 
 
 requestAnimationFrame(
-()=>requestAnimationFrame(
 ()=>{
 
-n.style.transition=
+requestAnimationFrame(
+()=>{
+
+next.style.transition=
 "transform .16s ease-out";
 
-n.style.transform=
-"translateX(0) rotate(0)";
+
+next.style.transform=
+"translate3d(0,0,0) rotate(0deg)";
 
 }
-)
+);
+
+}
 );
 
 
 setTimeout(
-()=>ignoreClick=false,
-220
+()=>{
+
+ignoreClick=false;
+
+},
+200
 );
 
-},240);
+},
+220
+);
 
 }
 
@@ -1161,23 +1573,22 @@ filtered();
 
 
 if(
-visibleAlbums.length
+!visibleAlbums.length
 ){
+return;
+}
 
-spotify(
 
+const a=
 visibleAlbums[
-
 Math.floor(
 Math.random()*
 visibleAlbums.length
 )
+];
 
-]
 
-);
-
-}
+spotify(a);
 
 }
 
@@ -1186,9 +1597,12 @@ function openPanel(id){
 
 closePanels();
 
+
 document
 .getElementById(id)
-.classList.add("open");
+.classList.add(
+"open"
+);
 
 }
 
@@ -1196,18 +1610,22 @@ document
 function closePanels(){
 
 document
-.querySelectorAll(".panel")
+.querySelectorAll(
+".panel"
+)
 .forEach(
-x=>
-x.classList.remove("open")
+p=>
+p.classList.remove(
+"open"
+)
 );
 
 }
 
 
-function setSort(s){
+function setSort(value){
 
-sort=s;
+sort=value;
 
 page=0;
 
@@ -1224,22 +1642,38 @@ fn,
 active
 ){
 
-const b=
-document.createElement("button");
+const button=
+document.createElement(
+"button"
+);
 
-b.className=
+
+button.className=
 "option"+
-(active ? " active" : "");
+(
+active
+?
+" active"
+:
+""
+);
 
-b.textContent=
+
+button.textContent=
 label;
 
-b.onclick=
+
+button.onclick=
 fn;
 
+
 document
-.getElementById("filters")
-.appendChild(b);
+.getElementById(
+"filters"
+)
+.appendChild(
+button
+);
 
 }
 
@@ -1247,7 +1681,9 @@ document
 function buildFilters(){
 
 const f=
-document.getElementById("filters");
+document.getElementById(
+"filters"
+);
 
 
 f.innerHTML=
@@ -1259,11 +1695,9 @@ addFilter(
 ()=>{
 
 genre=null;
-
 page=0;
 
 buildFilters();
-
 render();
 
 },
@@ -1287,11 +1721,9 @@ g,
 ()=>{
 
 genre=g;
-
 page=0;
 
 buildFilters();
-
 render();
 
 },
@@ -1300,6 +1732,8 @@ genre===g
 
 );
 
+
+/* MOOD */
 
 f.insertAdjacentHTML(
 "beforeend",
@@ -1312,11 +1746,9 @@ addFilter(
 ()=>{
 
 mood=null;
-
 page=0;
 
 buildFilters();
-
 render();
 
 },
@@ -1340,11 +1772,9 @@ m,
 ()=>{
 
 mood=m;
-
 page=0;
 
 buildFilters();
-
 render();
 
 },
@@ -1353,6 +1783,8 @@ mood===m
 
 );
 
+
+/* DECADE */
 
 f.insertAdjacentHTML(
 "beforeend",
@@ -1365,11 +1797,9 @@ addFilter(
 ()=>{
 
 decade=null;
-
 page=0;
 
 buildFilters();
-
 render();
 
 },
@@ -1381,7 +1811,9 @@ render();
 ...new Set(
 albums.map(
 a=>
-Math.floor(a.year/10)*10
+Math.floor(
+a.year/10
+)*10
 )
 )
 ]
@@ -1396,11 +1828,9 @@ d+"s",
 ()=>{
 
 decade=d;
-
 page=0;
 
 buildFilters();
-
 render();
 
 },
