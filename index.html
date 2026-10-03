@@ -1,168 +1,388 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#171819">
 <title>My CD Wallet</title>
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    background: #202124;
-    color: #f2f2f2;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-    min-height: 100vh;
+:root{
+  --bg:#171819;
+  --ink:#eee;
+  --muted:#9b9d9f;
 }
 
-header {
-    padding: 18px 18px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-h1 {
-    margin: 0;
-    font-size: 18px;
-    letter-spacing: .08em;
-    font-weight: 600;
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  overflow-x:hidden;
 }
 
-#count {
-    font-size: 12px;
-    color: #aaaeb4;
+body{
+  padding-bottom:calc(78px + env(safe-area-inset-bottom));
+  touch-action:pan-y;
 }
 
-.wallet {
-    margin: 5px 12px 90px;
-    padding: 15px 12px;
-    border: 1px solid #484b50;
-    border-radius: 9px;
-    background: #292b2f;
+header{
+  height:55px;
+  padding:15px 18px 7px;
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
 }
 
-.page {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 12px;
+h1{
+  font-size:15px;
+  letter-spacing:.12em;
+  margin:0;
+  font-weight:650;
 }
 
-.album {
-    min-width: 0;
-    cursor: pointer;
+#count{
+  font-size:10px;
+  color:#9b9d9f;
+  letter-spacing:.08em;
 }
 
-.sleeve {
-    padding: 5px;
-    border: 1px solid rgba(255,255,255,.16);
-    background: rgba(255,255,255,.035);
+.stage{
+  position:relative;
+  margin:2px auto 8px;
+  width:min(96vw,470px);
+  height:min(142vw,650px);
+  min-height:520px;
+  perspective:1000px;
 }
 
-.cover {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    background: #34363a;
+.case{
+  position:absolute;
+  inset:0;
+  border-radius:21px;
+  padding:18px 16px 21px;
+
+  background:
+    radial-gradient(
+      circle at 20% 12%,
+      rgba(255,255,255,.035),
+      transparent 25%
+    ),
+    repeating-linear-gradient(
+      105deg,
+      rgba(255,255,255,.018) 0 1px,
+      rgba(0,0,0,.018) 1px 3px
+    ),
+    linear-gradient(#222425,#18191a);
+
+  border:2px solid #090a0a;
+
+  box-shadow:
+    0 10px 25px #0009,
+    inset 0 0 0 2px #303234,
+    inset 0 0 18px #000;
 }
 
-.artist {
-    margin-top: 7px;
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.case:before{
+  content:"";
+  position:absolute;
+  inset:7px;
+  border:2px dashed #4c4e50;
+  border-radius:15px;
+  opacity:.72;
+  pointer-events:none;
 }
 
-.title {
-    margin-top: 2px;
-    color: #aaaeb4;
-    font-size: 11px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.case:after{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:24px;
+  border:4px ridge #2f3031;
+  pointer-events:none;
 }
 
-.page-number {
-    margin-top: 16px;
-    text-align: center;
-    color: #aaaeb4;
-    font-size: 11px;
+.brand{
+  position:absolute;
+  left:27px;
+  top:12px;
+  font-size:8px;
+  letter-spacing:.17em;
+  color:#8b8d8e;
+  text-shadow:0 1px #000;
+  z-index:8;
 }
 
-.toolbar {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
-    background: #1f2023;
-    border-top: 1px solid #494b50;
-    display: flex;
-    justify-content: space-around;
+.stack{
+  position:absolute;
+  left:27px;
+  right:22px;
+  top:39px;
+  bottom:30px;
+  border-radius:5px;
+  background:#0e0f10;
+
+  box-shadow:
+    5px 6px 0 #353739,
+    8px 9px 0 #111,
+    11px 12px 0 #2a2c2d;
 }
 
-.tool {
-    border: 0;
-    background: none;
-    color: #f2f2f2;
-    font-size: 10px;
-    text-transform: uppercase;
-    padding: 5px;
+.sheet{
+  position:absolute;
+  left:23px;
+  right:23px;
+  top:35px;
+  bottom:35px;
+  border-radius:5px;
+  transform-origin:50% 100%;
+  will-change:transform,opacity;
+  touch-action:none;
+  user-select:none;
 }
 
-.tool strong {
-    display: block;
-    font-size: 20px;
-    font-weight: 400;
-    margin-bottom: 3px;
+.sheet.current{
+  z-index:6;
 }
 
-.panel {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 20;
-    background: #202124;
-    padding: 22px 18px;
-    overflow-y: auto;
+.plastic{
+  position:absolute;
+  inset:0;
+  padding:13px 10px 17px;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:12px 9px;
+
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255,255,255,.12),
+      rgba(255,255,255,.015) 25%,
+      rgba(255,255,255,.07) 48%,
+      rgba(255,255,255,.015) 70%
+    ),
+    rgba(210,215,216,.07);
+
+  border:1px solid rgba(230,235,235,.28);
+
+  box-shadow:
+    inset 0 0 16px rgba(255,255,255,.055),
+    0 3px 9px #0008;
+
+  backdrop-filter:blur(.15px);
 }
 
-.panel.open { display: block; }
-
-.close {
-    position: absolute;
-    right: 18px;
-    top: 14px;
-    border: 0;
-    background: none;
-    color: white;
-    font-size: 28px;
+.plastic:after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  border-left:1px solid rgba(255,255,255,.17);
+  box-shadow:1px 0 rgba(0,0,0,.24);
 }
 
-.option {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 15px 0;
-    border: 0;
-    border-bottom: 1px solid #414348;
-    background: none;
-    color: white;
-    font-size: 16px;
+.album{
+  position:relative;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.12);
+  padding:5px 5px 8px;
+  background:rgba(8,8,8,.17);
+  overflow:hidden;
 }
 
-input {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    background: #2a2c30;
-    color: white;
-    border: 1px solid #4a4d52;
-    border-radius: 5px;
+.album:after{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,.13),
+      transparent 24%,
+      transparent 65%,
+      rgba(255,255,255,.04)
+    );
+
+  pointer-events:none;
+}
+
+.cover{
+  display:block;
+  width:100%;
+  aspect-ratio:1;
+  object-fit:cover;
+  background:#303234;
+  box-shadow:0 2px 5px #0009;
+  pointer-events:none;
+}
+
+.meta{
+  padding:5px 2px 0;
+  line-height:1.12;
+  pointer-events:none;
+}
+
+.artist{
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.title{
+  font-size:9px;
+  color:#c3c4c4;
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.pageNum{
+  position:absolute;
+  bottom:9px;
+  left:0;
+  right:0;
+  text-align:center;
+  color:#777a7b;
+  font-size:9px;
+  letter-spacing:.1em;
+  z-index:9;
+}
+
+.hint{
+  text-align:center;
+  color:#747779;
+  font-size:9px;
+  letter-spacing:.08em;
+  margin-top:7px;
+}
+
+.toolbar{
+  position:fixed;
+  z-index:30;
+  left:0;
+  right:0;
+  bottom:0;
+  height:calc(65px + env(safe-area-inset-bottom));
+  padding:7px 4px env(safe-area-inset-bottom);
+  display:flex;
+  background:#18191aee;
+  border-top:1px solid #393b3d;
+  backdrop-filter:blur(12px);
+}
+
+.tool{
+  flex:1;
+  border:0;
+  background:none;
+  color:#d9d9d9;
+  font-size:9px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+.tool b{
+  display:block;
+  font-size:19px;
+  font-weight:400;
+  line-height:25px;
+}
+
+.panel{
+  display:none;
+  position:fixed;
+  z-index:50;
+  inset:0;
+  background:#1b1c1df5;
+  padding:22px 18px calc(30px + env(safe-area-inset-bottom));
+  overflow:auto;
+}
+
+.panel.open{
+  display:block;
+}
+
+.panel h2{
+  font-size:21px;
+  margin:20px 0;
+}
+
+.close{
+  position:absolute;
+  right:14px;
+  top:8px;
+  color:white;
+  background:none;
+  border:0;
+  font-size:32px;
+}
+
+.option{
+  width:100%;
+  text-align:left;
+  border:0;
+  border-bottom:1px solid #3e4042;
+  background:none;
+  color:#eee;
+  padding:15px 2px;
+  font-size:15px;
+}
+
+.option.active{
+  font-weight:700;
+}
+
+.section{
+  color:#8f9294;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin:22px 0 5px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #484a4c;
+  border-radius:7px;
+  background:#292b2d;
+  color:#fff;
+  font-size:16px;
+}
+
+.empty{
+  grid-column:1/3;
+  align-self:center;
+  text-align:center;
+  color:#888;
+}
+
+@media(max-height:700px){
+  .stage{
+    height:calc(100vh - 145px);
+    min-height:455px;
+  }
+
+  .sheet{
+    top:31px;
+    bottom:31px;
+  }
 }
 </style>
 </head>
@@ -170,306 +390,1033 @@ input {
 <body>
 
 <header>
-    <h1>MY CD WALLET</h1>
-    <div id="count"></div>
+  <h1>MY CD WALLET</h1>
+  <div id="count"></div>
 </header>
 
-<div class="wallet" id="wallet">
-    <div class="page" id="page"></div>
-    <div class="page-number" id="pageNumber"></div>
+<div class="stage" id="stage">
+  <div class="case">
+
+    <div class="brand">
+      COMPACT DISC WALLET
+    </div>
+
+    <div class="stack"></div>
+
+    <div id="sheetHost"></div>
+
+    <div class="pageNum" id="pageNum"></div>
+
+  </div>
 </div>
 
-<div class="toolbar">
-    <button class="tool" onclick="randomAlbum()">
-        <strong>↯</strong>Random
-    </button>
-
-    <button class="tool" onclick="openPanel('filter')">
-        <strong>≡</strong>Filter
-    </button>
-
-    <button class="tool" onclick="openPanel('sort')">
-        <strong>↕</strong>Sort
-    </button>
-
-    <button class="tool" onclick="openPanel('search')">
-        <strong>⌕</strong>Search
-    </button>
-
-    <button class="tool" onclick="openPanel('add')">
-        <strong>＋</strong>Add
-    </button>
+<div class="hint">
+  SWIPE THE PAGE
 </div>
+
+<nav class="toolbar">
+
+<button class="tool" onclick="randomAlbum()">
+  <b>↯</b>
+  Random
+</button>
+
+<button class="tool" onclick="openPanel('filter')">
+  <b>≡</b>
+  Filter
+</button>
+
+<button class="tool" onclick="openPanel('sort')">
+  <b>↕</b>
+  Sort
+</button>
+
+<button class="tool" onclick="openPanel('search')">
+  <b>⌕</b>
+  Search
+</button>
+
+<button class="tool" onclick="openPanel('add')">
+  <b>＋</b>
+  Add
+</button>
+
+</nav>
+
 
 <div class="panel" id="sort">
-<button class="close" onclick="closePanels()">×</button>
+
+<button class="close"
+onclick="closePanels()">×</button>
+
 <h2>Sort</h2>
 
-<button class="option" onclick="setSort('az')">Artist A–Z</button>
-<button class="option" onclick="setSort('za')">Artist Z–A</button>
-<button class="option" onclick="setSort('old')">Release date — oldest first</button>
-<button class="option" onclick="setSort('new')">Release date — newest first</button>
+<button class="option"
+onclick="setSort('az')">
+Artist A–Z
+</button>
+
+<button class="option"
+onclick="setSort('za')">
+Artist Z–A
+</button>
+
+<button class="option"
+onclick="setSort('old')">
+Release date — oldest first
+</button>
+
+<button class="option"
+onclick="setSort('new')">
+Release date — newest first
+</button>
+
 </div>
+
 
 <div class="panel" id="search">
-<button class="close" onclick="closePanels()">×</button>
+
+<button class="close"
+onclick="closePanels()">×</button>
+
 <h2>Search</h2>
-<input id="searchBox" placeholder="Artist or album" oninput="render()">
+
+<input
+id="searchBox"
+placeholder="Artist or album"
+oninput="page=0;render()">
+
 </div>
+
 
 <div class="panel" id="filter">
-<button class="close" onclick="closePanels()">×</button>
+
+<button class="close"
+onclick="closePanels()">×</button>
+
 <h2>Filter</h2>
+
 <div id="filters"></div>
+
 </div>
 
+
 <div class="panel" id="add">
-<button class="close" onclick="closePanels()">×</button>
+
+<button class="close"
+onclick="closePanels()">×</button>
+
 <h2>Add Album</h2>
-<p>Album search will be added in the next version.</p>
+
+<p style="color:#aaa">
+Album search/add is coming next.
+</p>
+
 </div>
+
 
 <script>
 
-const albums = [
-["Alice Coltrane","Journey in Satchidananda",1971,"Jazz"],
-["April Smith","Songs for a Sinking Ship",2010,"Pop"],
-["Arcade Fire","Funeral",2004,"Indie"],
-["The Beatles","Abbey Road",1969,"Rock"],
-["Erykah Badu","Baduizm",1997,"R&B"],
-["Bon Iver","For Emma, Forever Ago",2007,"Folk"],
-["Cannonball Adderley","Somethin' Else",1958,"Jazz"],
-["De La Soul","Stakes Is High",1996,"Hip-Hop"],
-["Digable Planets","Reachin'",1993,"Hip-Hop"],
-["Miles Davis","In a Silent Way",1969,"Jazz"],
-["Lana Del Rey","Norman Fucking Rockwell!",2019,"Pop"],
-["Ella Fitzgerald & Louis Armstrong","Ella and Louis",1956,"Jazz"],
-["Grateful Dead","Workingman's Dead",1970,"Rock"],
-["Green Day","Dookie",1994,"Rock"],
-["Billie Holiday","Solitude",1956,"Jazz"],
-["Kendrick Lamar","good kid, m.A.A.d city",2012,"Hip-Hop"],
-["Neutral Milk Hotel","In the Aeroplane Over the Sea",1998,"Indie"],
-["Nick Drake","Pink Moon",1972,"Folk"],
-["O Brother, Where Art Thou?","Original Soundtrack",2000,"Soundtrack"],
-["Peter, Paul & Mary","The Very Best Of",1969,"Folk"],
-["The Postal Service","Give Up",2003,"Electronic"],
-["Radiohead","OK Computer",1997,"Alternative"],
-["Radiohead","Kid A",2000,"Alternative"],
-["Radiohead","In Rainbows",2007,"Alternative"],
-["Sade","Lovers Rock",2000,"R&B"],
-["Frank Sinatra & Antonio Carlos Jobim","Francis Albert Sinatra & Antonio Carlos Jobim",1967,"Jazz"],
-["Nina Simone","To Love Somebody",1969,"Soul"],
-["The Strokes","Is This It",2001,"Rock"],
-["Sarah Vaughan & Clifford Brown","Sarah Vaughan with Clifford Brown",1954,"Jazz"],
-["Stevie Wonder","Music of My Mind",1972,"Soul"],
-["Stevie Wonder","Talking Book",1972,"Soul"],
-["Stevie Wonder","Songs in the Key of Life",1976,"Soul"],
-["M. Ward","Hold Time",2009,"Indie"],
-["Weezer","Weezer (Blue Album)",1994,"Rock"],
-["Wilco","Yankee Hotel Foxtrot",2002,"Alternative"],
-["Zero 7","When It Falls",2004,"Electronic"]
-].map(x => ({
-    artist:x[0],
-    album:x[1],
-    year:x[2],
-    genre:x[3]
+const albums=[
+
+["Alice Coltrane","Journey in Satchidananda",1971,"Jazz",["Spiritual","Meditative"]],
+
+["April Smith","Songs for a Sinking Ship",2010,"Pop",["Energetic","Romantic"]],
+
+["Arcade Fire","Funeral",2004,"Indie Rock",["Melancholy","Energetic"]],
+
+["The Beatles","Abbey Road",1969,"Rock",["Classic","Laid Back"]],
+
+["Erykah Badu","Baduizm",1997,"R&B",["Laid Back","Late Night"]],
+
+["Bon Iver","For Emma, Forever Ago",2007,"Indie Folk",["Melancholy","Quiet"]],
+
+["Cannonball Adderley","Somethin' Else",1958,"Jazz",["Cool","Late Night"]],
+
+["De La Soul","Stakes Is High",1996,"Hip-Hop",["Cool","Energetic"]],
+
+["Digable Planets","Reachin' (A New Refutation of Time and Space)",1993,"Hip-Hop",["Laid Back","Cool"]],
+
+["Miles Davis","In a Silent Way",1969,"Jazz",["Cool","Late Night"]],
+
+["Lana Del Rey","Norman Fucking Rockwell!",2019,"Pop",["Melancholy","Late Night"]],
+
+["Ella Fitzgerald & Louis Armstrong","Ella and Louis",1956,"Jazz",["Romantic","Cool"]],
+
+["Grateful Dead","Workingman's Dead",1970,"Rock",["Laid Back","Road Trip"]],
+
+["Green Day","Dookie",1994,"Punk",["Energetic","Fun"]],
+
+["Billie Holiday","Solitude",1956,"Jazz",["Melancholy","Late Night"]],
+
+["Kendrick Lamar","good kid, m.A.A.d city",2012,"Hip-Hop",["Energetic","Late Night"]],
+
+["Neutral Milk Hotel","In the Aeroplane Over the Sea",1998,"Indie Rock",["Melancholy","Energetic"]],
+
+["Nick Drake","Pink Moon",1972,"Folk",["Melancholy","Quiet"]],
+
+["O Brother, Where Art Thou?","Original Soundtrack",2000,"Soundtrack",["Nostalgic","Road Trip"]],
+
+["Peter, Paul & Mary","The Very Best Of",1969,"Folk",["Laid Back","Nostalgic"]],
+
+["The Postal Service","Give Up",2003,"Electronic",["Melancholy","Energetic"]],
+
+["Radiohead","OK Computer",1997,"Alternative",["Melancholy","Energetic"]],
+
+["Radiohead","Kid A",2000,"Alternative",["Cool","Meditative"]],
+
+["Radiohead","In Rainbows",2007,"Alternative",["Romantic","Late Night"]],
+
+["Sade","Lovers Rock",2000,"R&B",["Romantic","Late Night"]],
+
+["Frank Sinatra & Antonio Carlos Jobim","Francis Albert Sinatra & Antonio Carlos Jobim",1967,"Jazz",["Romantic","Cool"]],
+
+["Nina Simone","To Love Somebody",1969,"Soul",["Melancholy","Late Night"]],
+
+["The Strokes","Is This It",2001,"Rock",["Energetic","Cool"]],
+
+["Sarah Vaughan & Clifford Brown","Sarah Vaughan with Clifford Brown",1954,"Jazz",["Romantic","Cool"]],
+
+["Stevie Wonder","Music of My Mind",1972,"Soul",["Romantic","Laid Back"]],
+
+["Stevie Wonder","Talking Book",1972,"Soul",["Romantic","Late Night"]],
+
+["Stevie Wonder","Songs in the Key of Life",1976,"Soul",["Energetic","Joyful"]],
+
+["M. Ward","Hold Time",2009,"Indie Folk",["Laid Back","Road Trip"]],
+
+["Weezer","Weezer (Blue Album)",1994,"Rock",["Energetic","Nostalgic"]],
+
+["Wilco","Yankee Hotel Foxtrot",2002,"Alternative",["Melancholy","Road Trip"]],
+
+["Zero 7","When It Falls",2004,"Electronic",["Laid Back","Late Night"]]
+
+].map(x=>({
+
+artist:x[0],
+album:x[1],
+year:x[2],
+genre:x[3],
+moods:x[4]
+
 }));
 
-let page = 0;
-let sort = "az";
-let activeGenre = null;
-let visibleAlbums = [];
 
-function spotify(album) {
-    const search = encodeURIComponent(album.artist + " " + album.album);
-    window.location.href =
-        "https://open.spotify.com/search/" + search;
-}
+let page=0;
 
-function artwork(album,img) {
+let sort="az";
 
-    const search =
-        encodeURIComponent(album.artist+" "+album.album);
+let genre=null;
 
-    fetch(
-        "https://itunes.apple.com/search?term="+
-        search+
-        "&entity=album&limit=1"
-    )
-    .then(r=>r.json())
-    .then(data=>{
-        if(data.results.length){
-            img.src =
-            data.results[0].artworkUrl100
-            .replace("100x100","600x600");
-        }
-    });
-}
+let mood=null;
 
-function render(){
+let decade=null;
 
-    const search =
-        document.getElementById("searchBox").value.toLowerCase();
+let visibleAlbums=[];
 
-    visibleAlbums = albums.filter(a=>{
-
-        if(activeGenre && a.genre !== activeGenre)
-            return false;
-
-        if(search &&
-           !(a.artist+" "+a.album)
-           .toLowerCase()
-           .includes(search))
-            return false;
-
-        return true;
-    });
-
-    if(sort==="az")
-        visibleAlbums.sort((a,b)=>a.artist.localeCompare(b.artist));
-
-    if(sort==="za")
-        visibleAlbums.sort((a,b)=>b.artist.localeCompare(a.artist));
-
-    if(sort==="old")
-        visibleAlbums.sort((a,b)=>a.year-b.year);
-
-    if(sort==="new")
-        visibleAlbums.sort((a,b)=>b.year-a.year);
-
-    const pages = Math.ceil(visibleAlbums.length/4);
-
-    if(page >= pages) page = Math.max(0,pages-1);
-
-    const current =
-        visibleAlbums.slice(page*4,page*4+4);
-
-    const container =
-        document.getElementById("page");
-
-    container.innerHTML="";
-
-    current.forEach(album=>{
-
-        const div=document.createElement("div");
-        div.className="album";
-
-        div.innerHTML=`
-        <div class="sleeve">
-            <img class="cover">
-        </div>
-        <div class="artist">${album.artist}</div>
-        <div class="title">${album.album} · ${album.year}</div>
-        `;
-
-        div.onclick=()=>spotify(album);
-
-        container.appendChild(div);
-
-        artwork(album,div.querySelector("img"));
-    });
-
-    document.getElementById("count").textContent =
-        visibleAlbums.length+" ALBUMS";
-
-    document.getElementById("pageNumber").textContent =
-        pages ? "PAGE "+(page+1)+" OF "+pages : "NO ALBUMS";
-}
-
-function setSort(type){
-    sort=type;
-    page=0;
-    closePanels();
-    render();
-}
-
-function randomAlbum(){
-
-    if(!visibleAlbums.length) return;
-
-    const album =
-        visibleAlbums[
-        Math.floor(Math.random()*visibleAlbums.length)
-        ];
-
-    spotify(album);
-}
-
-function openPanel(id){
-    closePanels();
-    document.getElementById(id).classList.add("open");
-}
-
-function closePanels(){
-    document.querySelectorAll(".panel")
-    .forEach(p=>p.classList.remove("open"));
-}
-
-const genres =
-    [...new Set(albums.map(a=>a.genre))].sort();
-
-const filters =
-    document.getElementById("filters");
-
-const all=document.createElement("button");
-all.className="option";
-all.textContent="All genres";
-all.onclick=()=>{
-    activeGenre=null;
-    page=0;
-    closePanels();
-    render();
-};
-filters.appendChild(all);
-
-genres.forEach(genre=>{
-
-    const b=document.createElement("button");
-
-    b.className="option";
-    b.textContent=genre;
-
-    b.onclick=()=>{
-        activeGenre=genre;
-        page=0;
-        closePanels();
-        render();
-    };
-
-    filters.appendChild(b);
-});
-
+let dragging=false;
 
 let startX=0;
 
-document.getElementById("wallet")
-.addEventListener("touchstart",e=>{
-    startX=e.touches[0].clientX;
-},{passive:true});
+let startY=0;
 
-document.getElementById("wallet")
-.addEventListener("touchend",e=>{
+let dx=0;
 
-    const change =
-        e.changedTouches[0].clientX-startX;
+let ignoreClick=false;
 
-    const totalPages =
-        Math.ceil(visibleAlbums.length/4);
+const host=
+document.getElementById("sheetHost");
 
-    if(change < -60 && page < totalPages-1){
-        page++;
-        render();
-    }
 
-    if(change > 60 && page > 0){
-        page--;
-        render();
-    }
+function spotify(a){
+
+location.href=
+"https://open.spotify.com/search/"+
+encodeURIComponent(
+a.artist+" "+a.album
+);
+
+}
+
+
+function artwork(a,img){
+
+fetch(
+"https://itunes.apple.com/search?term="+
+encodeURIComponent(
+a.artist+" "+a.album
+)+
+"&entity=album&limit=1"
+)
+
+.then(r=>r.json())
+
+.then(d=>{
+
+if(d.results &&
+d.results[0]){
+
+img.src=
+d.results[0]
+.artworkUrl100
+.replace(
+"100x100",
+"600x600"
+);
+
+}
+
+})
+
+.catch(()=>{});
+
+}
+
+
+function filtered(){
+
+const q=
+(
+document.getElementById("searchBox").value
+||
+""
+).toLowerCase();
+
+
+let v=
+albums.filter(a=>
+
+(!genre ||
+a.genre===genre)
+
+&&
+
+(!mood ||
+a.moods.includes(mood))
+
+&&
+
+(!decade ||
+Math.floor(a.year/10)*10===decade)
+
+&&
+
+(!q ||
+(a.artist+" "+a.album)
+.toLowerCase()
+.includes(q))
+
+);
+
+
+if(sort==="az")
+
+v.sort(
+(a,b)=>
+a.artist.localeCompare(b.artist)
+);
+
+
+if(sort==="za")
+
+v.sort(
+(a,b)=>
+b.artist.localeCompare(a.artist)
+);
+
+
+if(sort==="old")
+
+v.sort(
+(a,b)=>
+a.year-b.year
+||
+a.artist.localeCompare(b.artist)
+);
+
+
+if(sort==="new")
+
+v.sort(
+(a,b)=>
+b.year-a.year
+||
+a.artist.localeCompare(b.artist)
+);
+
+
+return v;
+
+}
+
+
+function makeSheet(items){
+
+const sheet=
+document.createElement("div");
+
+sheet.className=
+"sheet current";
+
+
+const plastic=
+document.createElement("div");
+
+plastic.className=
+"plastic";
+
+sheet.appendChild(plastic);
+
+
+if(!items.length){
+
+plastic.innerHTML=
+'<div class="empty">No albums found</div>';
+
+return sheet;
+
+}
+
+
+items.forEach(a=>{
+
+const el=
+document.createElement("div");
+
+el.className=
+"album";
+
+
+el.innerHTML=`
+
+<img class="cover" alt="">
+
+<div class="meta">
+
+<div class="artist"></div>
+
+<div class="title"></div>
+
+</div>
+
+`;
+
+
+el.querySelector(".artist")
+.textContent=
+a.artist;
+
+
+el.querySelector(".title")
+.textContent=
+a.album+" · "+a.year;
+
+
+el.addEventListener(
+"click",
+()=>{
+
+if(!ignoreClick)
+spotify(a);
+
+}
+);
+
+
+plastic.appendChild(el);
+
+
+artwork(
+a,
+el.querySelector("img")
+);
 
 });
+
+
+return sheet;
+
+}
+
+
+function render(){
+
+visibleAlbums=
+filtered();
+
+
+const pages=
+Math.max(
+1,
+Math.ceil(
+visibleAlbums.length/4
+)
+);
+
+
+page=
+Math.min(
+page,
+pages-1
+);
+
+
+host.innerHTML="";
+
+
+host.appendChild(
+
+makeSheet(
+
+visibleAlbums.slice(
+page*4,
+page*4+4
+)
+
+)
+
+);
+
+
+document
+.getElementById("count")
+.textContent=
+visibleAlbums.length+
+" ALBUMS";
+
+
+document
+.getElementById("pageNum")
+.textContent=
+"PAGE "+
+(page+1)+
+" OF "+
+pages;
+
+
+bindSwipe(
+host.firstChild
+);
+
+}
+
+
+function bindSwipe(sheet){
+
+sheet.addEventListener(
+"pointerdown",
+e=>{
+
+dragging=true;
+
+startX=e.clientX;
+
+startY=e.clientY;
+
+dx=0;
+
+ignoreClick=false;
+
+sheet.setPointerCapture(
+e.pointerId
+);
+
+sheet.style.transition=
+"none";
+
+}
+);
+
+
+sheet.addEventListener(
+"pointermove",
+e=>{
+
+if(!dragging)
+return;
+
+
+dx=
+e.clientX-startX;
+
+
+const dy=
+e.clientY-startY;
+
+
+if(Math.abs(dx)>8)
+ignoreClick=true;
+
+
+if(
+Math.abs(dx)>
+Math.abs(dy)
+){
+
+e.preventDefault();
+
+
+const rot=
+dx/22;
+
+
+sheet.style.transform=
+`translateX(${dx}px) rotate(${rot}deg)`;
+
+}
+
+}
+);
+
+
+sheet.addEventListener(
+"pointerup",
+()=>{
+
+if(!dragging)
+return;
+
+
+dragging=false;
+
+
+const threshold=
+Math.min(
+95,
+innerWidth*.22
+);
+
+
+if(
+Math.abs(dx)>
+threshold
+){
+
+turn(
+dx<0 ? 1 : -1,
+sheet
+);
+
+}
+
+else{
+
+sheet.style.transition=
+"transform .18s ease";
+
+
+sheet.style.transform=
+"translateX(0) rotate(0)";
+
+
+setTimeout(
+()=>ignoreClick=false,
+220
+);
+
+}
+
+}
+);
+
+
+sheet.addEventListener(
+"pointercancel",
+()=>{
+
+dragging=false;
+
+sheet.style.transition=
+"transform .18s ease";
+
+sheet.style.transform="";
+
+}
+);
+
+}
+
+
+function turn(dir,sheet){
+
+const pages=
+Math.ceil(
+visibleAlbums.length/4
+);
+
+
+if(
+
+(dir===1 &&
+page>=pages-1)
+
+||
+
+(dir===-1 &&
+page<=0)
+
+){
+
+sheet.style.transition=
+"transform .22s cubic-bezier(.2,.8,.2,1)";
+
+
+sheet.style.transform=
+"translateX(0) rotate(0)";
+
+
+setTimeout(
+()=>ignoreClick=false,
+250
+);
+
+return;
+
+}
+
+
+sheet.style.transition=
+"transform .26s ease-in, opacity .24s ease-in";
+
+
+sheet.style.transform=
+`translateX(${
+dir===1
+?
+"-125vw"
+:
+"125vw"
+}) rotate(${
+dir===1
+?
+"-16"
+:
+"16"
+}deg)`;
+
+
+sheet.style.opacity=".25";
+
+
+setTimeout(()=>{
+
+page+=dir;
+
+render();
+
+
+const n=
+host.firstChild;
+
+
+n.style.transition=
+"none";
+
+
+n.style.transform=
+`translateX(${
+dir===1
+?
+"18px"
+:
+"-18px"
+}) rotate(${
+dir===1
+?
+"1.5"
+:
+"-1.5"
+}deg)`;
+
+
+requestAnimationFrame(
+()=>requestAnimationFrame(
+()=>{
+
+n.style.transition=
+"transform .16s ease-out";
+
+n.style.transform=
+"translateX(0) rotate(0)";
+
+}
+)
+);
+
+
+setTimeout(
+()=>ignoreClick=false,
+220
+);
+
+},240);
+
+}
+
+
+function randomAlbum(){
+
+visibleAlbums=
+filtered();
+
+
+if(
+visibleAlbums.length
+){
+
+spotify(
+
+visibleAlbums[
+
+Math.floor(
+Math.random()*
+visibleAlbums.length
+)
+
+]
+
+);
+
+}
+
+}
+
+
+function openPanel(id){
+
+closePanels();
+
+document
+.getElementById(id)
+.classList.add("open");
+
+}
+
+
+function closePanels(){
+
+document
+.querySelectorAll(".panel")
+.forEach(
+x=>
+x.classList.remove("open")
+);
+
+}
+
+
+function setSort(s){
+
+sort=s;
+
+page=0;
+
+closePanels();
+
+render();
+
+}
+
+
+function addFilter(
+label,
+fn,
+active
+){
+
+const b=
+document.createElement("button");
+
+b.className=
+"option"+
+(active ? " active" : "");
+
+b.textContent=
+label;
+
+b.onclick=
+fn;
+
+document
+.getElementById("filters")
+.appendChild(b);
+
+}
+
+
+function buildFilters(){
+
+const f=
+document.getElementById("filters");
+
+
+f.innerHTML=
+'<div class="section">Genre</div>';
+
+
+addFilter(
+"All genres",
+()=>{
+
+genre=null;
+
+page=0;
+
+buildFilters();
+
+render();
+
+},
+!genre
+);
+
+
+[
+...new Set(
+albums.map(
+a=>a.genre
+)
+)
+]
+.sort()
+.forEach(
+g=>
+
+addFilter(
+g,
+()=>{
+
+genre=g;
+
+page=0;
+
+buildFilters();
+
+render();
+
+},
+genre===g
+)
+
+);
+
+
+f.insertAdjacentHTML(
+"beforeend",
+'<div class="section">Mood</div>'
+);
+
+
+addFilter(
+"All moods",
+()=>{
+
+mood=null;
+
+page=0;
+
+buildFilters();
+
+render();
+
+},
+!mood
+);
+
+
+[
+...new Set(
+albums.flatMap(
+a=>a.moods
+)
+)
+]
+.sort()
+.forEach(
+m=>
+
+addFilter(
+m,
+()=>{
+
+mood=m;
+
+page=0;
+
+buildFilters();
+
+render();
+
+},
+mood===m
+)
+
+);
+
+
+f.insertAdjacentHTML(
+"beforeend",
+'<div class="section">Decade</div>'
+);
+
+
+addFilter(
+"All decades",
+()=>{
+
+decade=null;
+
+page=0;
+
+buildFilters();
+
+render();
+
+},
+!decade
+);
+
+
+[
+...new Set(
+albums.map(
+a=>
+Math.floor(a.year/10)*10
+)
+)
+]
+.sort(
+(a,b)=>a-b
+)
+.forEach(
+d=>
+
+addFilter(
+d+"s",
+()=>{
+
+decade=d;
+
+page=0;
+
+buildFilters();
+
+render();
+
+},
+decade===d
+)
+
+);
+
+}
+
+
+buildFilters();
 
 render();
 
 </script>
+
 </body>
 </html>
