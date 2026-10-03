@@ -34,8 +34,6 @@ body{
   flex-direction:column;
 }
 
-/* HEADER */
-
 header{
   height:var(--header);
   flex:0 0 var(--header);
@@ -58,7 +56,7 @@ h1{
   letter-spacing:.1em;
 }
 
-/* WALLET AREA */
+/* WALLET */
 
 .stage{
   flex:1 1 auto;
@@ -76,53 +74,54 @@ h1{
   max-width:480px;
   height:100%;
   min-height:0;
-  border-radius:20px;
+  border-radius:19px;
 
-  /* woven black nylon */
   background:
     radial-gradient(
-      ellipse at 25% 15%,
-      rgba(255,255,255,.055),
-      transparent 35%
+      ellipse at 18% 8%,
+      rgba(255,255,255,.04),
+      transparent 34%
     ),
+
     radial-gradient(
       ellipse at 80% 75%,
-      rgba(0,0,0,.45),
-      transparent 50%
+      rgba(0,0,0,.38),
+      transparent 55%
     ),
+
     repeating-linear-gradient(
-      45deg,
-      rgba(255,255,255,.025) 0px,
-      rgba(255,255,255,.025) 1px,
-      rgba(0,0,0,.04) 1px,
-      rgba(0,0,0,.04) 3px
+      43deg,
+      rgba(255,255,255,.018) 0px,
+      rgba(255,255,255,.018) 1px,
+      rgba(0,0,0,.035) 1px,
+      rgba(0,0,0,.035) 3px
     ),
+
     repeating-linear-gradient(
-      -45deg,
+      -43deg,
       rgba(255,255,255,.012) 0px,
       rgba(255,255,255,.012) 1px,
-      rgba(0,0,0,.025) 1px,
-      rgba(0,0,0,.025) 3px
+      transparent 1px,
+      transparent 3px
     ),
-    #202223;
 
-  border:2px solid #080909;
+    #202122;
+
+  border:2px solid #090a0a;
 
   box-shadow:
-    0 7px 18px rgba(0,0,0,.7),
-    inset 0 0 0 2px #3a3c3e,
-    inset 0 0 25px rgba(0,0,0,.8);
+    0 6px 17px rgba(0,0,0,.72),
+    inset 0 0 20px rgba(0,0,0,.75);
 }
 
-/* zipper */
+/* subdued zipper */
 
 .case:after{
   content:"";
   position:absolute;
-  inset:5px;
-  border-radius:15px;
-  border:3px double #676a6c;
-  opacity:.7;
+  inset:6px;
+  border-radius:14px;
+  border:2px solid rgba(105,108,110,.6);
   pointer-events:none;
 }
 
@@ -131,51 +130,38 @@ h1{
 .case:before{
   content:"";
   position:absolute;
-  inset:11px;
-  border-radius:12px;
-  border:2px dashed rgba(155,158,160,.38);
+  inset:12px;
+  border-radius:11px;
+  border:1px dashed rgba(160,163,165,.36);
   pointer-events:none;
 }
 
-.brand{
-  position:absolute;
-  z-index:10;
-  top:13px;
-  left:27px;
-  font-size:7px;
-  letter-spacing:.18em;
-  color:#949799;
-  text-shadow:0 1px 1px #000;
-}
-
-/* stacked pages behind current page */
+/* pages underneath */
 
 .page-stack{
   position:absolute;
   z-index:1;
-  top:35px;
-  left:27px;
-  right:20px;
-  bottom:24px;
-  border-radius:4px;
+  top:24px;
+  left:25px;
+  right:18px;
+  bottom:27px;
+  border-radius:3px;
 
-  background:#151617;
+  background:#121314;
 
   box-shadow:
-    3px 3px 0 rgba(190,195,195,.15),
-    6px 6px 0 #111,
-    8px 8px 0 rgba(190,195,195,.1);
+    3px 3px 0 rgba(200,205,205,.13),
+    6px 6px 0 rgba(0,0,0,.7),
+    8px 8px 0 rgba(180,185,185,.08);
 }
-
-/* ACTIVE PLASTIC PAGE */
 
 #sheetHost{
   position:absolute;
   z-index:5;
-  top:31px;
-  bottom:27px;
-  left:20px;
-  right:20px;
+  top:20px;
+  bottom:30px;
+  left:18px;
+  right:18px;
 }
 
 .sheet{
@@ -187,76 +173,90 @@ h1{
   user-select:none;
 }
 
+/* PLASTIC PAGE */
+
 .plastic{
   position:absolute;
   inset:0;
 
-  padding:8px;
+  padding:5px;
 
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   grid-template-rows:repeat(3,minmax(0,1fr));
 
-  gap:7px;
+  gap:4px;
 
   border-radius:3px;
 
   background:
     linear-gradient(
-      112deg,
-      rgba(255,255,255,.11) 0%,
-      rgba(255,255,255,.025) 18%,
-      rgba(255,255,255,.02) 45%,
-      rgba(255,255,255,.075) 63%,
-      rgba(255,255,255,.018) 82%
+      115deg,
+      rgba(255,255,255,.095),
+      rgba(255,255,255,.018) 21%,
+      rgba(255,255,255,.015) 48%,
+      rgba(255,255,255,.065) 68%,
+      rgba(255,255,255,.015)
     ),
-    rgba(190,200,202,.065);
+    rgba(190,200,202,.045);
 
-  border:1px solid rgba(225,230,230,.32);
+  border:1px solid rgba(220,225,225,.28);
 
   box-shadow:
-    0 3px 8px rgba(0,0,0,.7),
-    inset 0 0 13px rgba(255,255,255,.055);
+    0 3px 7px rgba(0,0,0,.72),
+    inset 0 0 10px rgba(255,255,255,.04);
 }
 
-/* vertical sleeve seam */
+/* center binding seam */
 
 .plastic:before{
   content:"";
   position:absolute;
+  z-index:5;
   top:0;
   bottom:0;
   left:50%;
-  border-left:1px solid rgba(255,255,255,.18);
-  border-right:1px solid rgba(0,0,0,.2);
+  width:2px;
+
+  background:
+    linear-gradient(
+      to right,
+      rgba(255,255,255,.17),
+      rgba(0,0,0,.22)
+    );
+
   pointer-events:none;
 }
 
-/* faint overall plastic reflection */
+/* broad clear-plastic reflection */
 
 .plastic:after{
   content:"";
   position:absolute;
+  z-index:8;
   inset:0;
   pointer-events:none;
 
   background:
     linear-gradient(
-      125deg,
-      rgba(255,255,255,.07),
-      transparent 18%,
-      transparent 70%,
-      rgba(255,255,255,.025)
+      118deg,
+      rgba(255,255,255,.07) 0%,
+      rgba(255,255,255,.015) 17%,
+      transparent 28%,
+      transparent 67%,
+      rgba(255,255,255,.035) 79%,
+      transparent 100%
     );
 }
 
-/* EACH CD POCKET */
+/* POCKET */
 
 .album{
   position:relative;
   min-width:0;
   min-height:0;
-  padding:5px;
+
+  padding:2px;
 
   display:flex;
   align-items:center;
@@ -265,95 +265,125 @@ h1{
   overflow:hidden;
 
   border:
-    1px solid rgba(225,230,230,.19);
+    1px solid rgba(225,230,230,.16);
 
   background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.035),
-      rgba(0,0,0,.04)
-    );
+    rgba(255,255,255,.015);
 
   box-shadow:
     inset 0 0 7px rgba(255,255,255,.025);
 }
 
-/* pocket bottom seam */
+/* horizontal welded pocket seam */
 
 .album:before{
   content:"";
   position:absolute;
+  z-index:5;
   left:0;
   right:0;
   bottom:0;
-  border-bottom:1px solid rgba(255,255,255,.16);
+  height:4px;
+
+  border-top:
+    1px solid rgba(255,255,255,.18);
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.05),
+      rgba(255,255,255,.01)
+    );
+
   pointer-events:none;
 }
 
-/* clear sleeve reflection */
+/* sleeve lip/reflection */
 
 .album:after{
   content:"";
   position:absolute;
-  inset:0;
-  pointer-events:none;
+  z-index:6;
+  left:1px;
+  right:1px;
+  top:0;
+  height:13%;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
 
   background:
     linear-gradient(
-      120deg,
-      rgba(255,255,255,.11),
-      transparent 23%,
-      transparent 68%,
-      rgba(255,255,255,.025)
+      to bottom,
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.012)
     );
+
+  pointer-events:none;
 }
 
 .cover{
   display:block;
-
-  /* square regardless of pocket dimensions */
-  width:min(100%,100cqh);
+  width:100%;
   max-width:100%;
   max-height:100%;
-  aspect-ratio:1 / 1;
-
+  aspect-ratio:1;
   object-fit:cover;
 
   background:
-    linear-gradient(135deg,#343638,#242627);
+    linear-gradient(
+      135deg,
+      #343638,
+      #242627
+    );
 
   box-shadow:
-    0 2px 5px rgba(0,0,0,.85);
+    0 2px 5px rgba(0,0,0,.9);
 
   pointer-events:none;
 }
 
-/* loading indicator */
-
 .cover.loading{
-  opacity:.45;
+  opacity:.3;
 }
+
+/* PAGE COUNTER */
 
 .page-number{
   position:absolute;
-  z-index:10;
-  bottom:9px;
-  left:0;
-  right:0;
+  z-index:12;
 
-  text-align:center;
+  left:50%;
+  bottom:33px;
+
+  transform:translateX(-50%);
+
+  padding:2px 7px;
+
+  border-radius:8px;
+
+  background:rgba(15,16,17,.72);
+
+  color:#aaa;
 
   font-size:8px;
   letter-spacing:.12em;
-  color:#747779;
+
+  pointer-events:none;
 }
 
-/* BOTTOM TOOLBAR */
+/* TOOLBAR */
 
 .toolbar{
-  flex:0 0 calc(var(--toolbar) + env(safe-area-inset-bottom));
+  flex:0 0 calc(
+    var(--toolbar) +
+    env(safe-area-inset-bottom)
+  );
 
-  height:calc(var(--toolbar) + env(safe-area-inset-bottom));
+  height:calc(
+    var(--toolbar) +
+    env(safe-area-inset-bottom)
+  );
 
   padding:
     5px
@@ -375,6 +405,7 @@ h1{
 
   border:0;
   background:none;
+
   color:#d8d8d8;
 
   padding:2px;
@@ -384,13 +415,138 @@ h1{
   text-transform:uppercase;
 }
 
-.tool b{
-  display:block;
-  height:26px;
-  line-height:25px;
+.icon{
+  position:relative;
 
-  font-size:19px;
-  font-weight:400;
+  display:block;
+
+  width:22px;
+  height:25px;
+
+  margin:auto;
+
+  color:#ddd;
+}
+
+/* RANDOM */
+
+.icon-random:before{
+  content:"";
+  position:absolute;
+  left:7px;
+  top:3px;
+
+  width:7px;
+  height:14px;
+
+  border-left:2px solid currentColor;
+
+  transform:
+    skew(-18deg)
+    rotate(12deg);
+}
+
+.icon-random:after{
+  content:"";
+  position:absolute;
+  left:8px;
+  bottom:3px;
+
+  width:6px;
+  height:6px;
+
+  border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;
+
+  transform:rotate(42deg);
+}
+
+/* FILTER */
+
+.icon-filter:before{
+  content:"";
+  position:absolute;
+
+  left:4px;
+  top:5px;
+
+  width:14px;
+  height:2px;
+
+  background:currentColor;
+
+  box-shadow:
+    0 5px 0 currentColor,
+    0 10px 0 currentColor;
+}
+
+/* SORT */
+
+.icon-sort:before{
+  content:"↕";
+  position:absolute;
+  inset:0;
+
+  font-family:Arial,sans-serif;
+  font-size:23px;
+  line-height:24px;
+
+  text-align:center;
+
+  color:#ddd;
+}
+
+/* SEARCH */
+
+.icon-search:before{
+  content:"";
+  position:absolute;
+
+  width:8px;
+  height:8px;
+
+  left:5px;
+  top:5px;
+
+  border:2px solid currentColor;
+  border-radius:50%;
+}
+
+.icon-search:after{
+  content:"";
+  position:absolute;
+
+  width:7px;
+  height:2px;
+
+  left:12px;
+  top:14px;
+
+  background:currentColor;
+
+  transform:rotate(-45deg);
+  transform-origin:left center;
+}
+
+/* ADD */
+
+.icon-add:before,
+.icon-add:after{
+  content:"";
+
+  position:absolute;
+
+  left:4px;
+  top:11px;
+
+  width:14px;
+  height:2px;
+
+  background:currentColor;
+}
+
+.icon-add:after{
+  transform:rotate(90deg);
 }
 
 /* PANELS */
@@ -429,6 +585,7 @@ h1{
 
   border:0;
   background:none;
+
   color:#fff;
 
   font-size:32px;
@@ -460,6 +617,7 @@ h1{
   color:#8f9294;
 
   font-size:10px;
+
   text-transform:uppercase;
   letter-spacing:.12em;
 }
@@ -473,22 +631,21 @@ input{
   border-radius:7px;
 
   background:#292b2d;
+
   color:#fff;
 
   font-size:16px;
 }
 
 .empty{
-  grid-column:1 / 3;
-  grid-row:1 / 4;
+  grid-column:1/3;
+  grid-row:1/4;
 
   align-self:center;
 
   text-align:center;
   color:#888;
 }
-
-/* small phones */
 
 @media(max-height:700px){
 
@@ -502,26 +659,17 @@ input{
   }
 
   #sheetHost{
-    top:28px;
-    bottom:23px;
+    top:18px;
+    bottom:27px;
   }
 
   .page-stack{
-    top:31px;
-    bottom:21px;
+    top:22px;
+    bottom:24px;
   }
 
-  .plastic{
-    gap:5px;
-    padding:6px;
-  }
-
-  .album{
-    padding:4px;
-  }
-
-  .brand{
-    top:10px;
+  .page-number{
+    bottom:30px;
   }
 
 }
@@ -532,7 +680,9 @@ input{
 
 <header>
 
-<h1>MY CD WALLET</h1>
+<h1>
+MY CD WALLET
+</h1>
 
 <div id="count"></div>
 
@@ -542,10 +692,6 @@ input{
 <main class="stage">
 
 <div class="case">
-
-<div class="brand">
-COMPACT DISC WALLET
-</div>
 
 <div class="page-stack"></div>
 
@@ -566,36 +712,65 @@ id="pageNumber">
 <button
 class="tool"
 onclick="randomAlbum()">
-<b>↯</b>
+
+<span
+class="icon icon-random">
+</span>
+
 Random
+
 </button>
+
 
 <button
 class="tool"
 onclick="openPanel('filter')">
-<b>≡</b>
+
+<span
+class="icon icon-filter">
+</span>
+
 Filter
+
 </button>
+
 
 <button
 class="tool"
 onclick="openPanel('sort')">
-<b>↕</b>
+
+<span
+class="icon icon-sort">
+</span>
+
 Sort
+
 </button>
+
 
 <button
 class="tool"
 onclick="openPanel('search')">
-<b>⌕</b>
+
+<span
+class="icon icon-search">
+</span>
+
 Search
+
 </button>
+
 
 <button
 class="tool"
 onclick="openPanel('add')">
-<b>＋</b>
+
+<span
+class="icon icon-add">
+</span>
+
 Add
+
 </button>
 
 </nav>
@@ -635,6 +810,18 @@ Release date — oldest first
 class="option"
 onclick="setSort('new')">
 Release date — newest first
+</button>
+
+<button
+class="option"
+onclick="setSort('historicOld')">
+Historic — oldest first
+</button>
+
+<button
+class="option"
+onclick="setSort('historicNew')">
+Historic — newest first
 </button>
 
 </div>
@@ -698,92 +885,107 @@ Album search/add comes next.
 
 <script>
 
-const albums=[
+/*
+The final number on every row is
+the temporary HISTORIC order.
 
-["Alice Coltrane","Journey in Satchidananda",1971,"Jazz",["Spiritual","Meditative"]],
+Later we can replace these numbers
+with your real acquisition sequence.
+*/
 
-["April Smith","Songs for a Sinking Ship",2010,"Pop",["Energetic","Romantic"]],
+const rawAlbums=[
 
-["Arcade Fire","Funeral",2004,"Indie Rock",["Melancholy","Energetic"]],
+["The Strokes","Is This It",2001,"Rock",["Energetic","Cool"],1],
 
-["The Beatles","Abbey Road",1969,"Rock",["Classic","Laid Back"]],
+["Sade","Lovers Rock",2000,"R&B",["Romantic","Late Night"],2],
 
-["Erykah Badu","Baduizm",1997,"R&B",["Laid Back","Late Night"]],
+["Weezer","Weezer (Blue Album)",1994,"Rock",["Energetic","Nostalgic"],3],
 
-["Bon Iver","For Emma, Forever Ago",2007,"Indie Folk",["Melancholy","Quiet"]],
+["Green Day","Dookie",1994,"Punk",["Energetic","Fun"],4],
 
-["Cannonball Adderley","Somethin' Else",1958,"Jazz",["Cool","Late Night"]],
+["Cannonball Adderley","Somethin' Else",1958,"Jazz",["Cool","Late Night"],5],
 
-["De La Soul","Stakes Is High",1996,"Hip-Hop",["Cool","Energetic"]],
+["Grateful Dead","Workingman's Dead",1970,"Rock",["Laid Back","Road Trip"],6],
 
-["Digable Planets","Reachin' (A New Refutation of Time and Space)",1993,"Hip-Hop",["Laid Back","Cool"]],
+["Erykah Badu","Baduizm",1997,"R&B",["Laid Back","Late Night"],7],
 
-["Miles Davis","In a Silent Way",1969,"Jazz",["Cool","Late Night"]],
+["Digable Planets","Reachin' (A New Refutation of Time and Space)",1993,"Hip-Hop",["Laid Back","Cool"],8],
 
-["Lana Del Rey","Norman Fucking Rockwell!",2019,"Pop",["Melancholy","Late Night"]],
+["De La Soul","Stakes Is High",1996,"Hip-Hop",["Cool","Energetic"],9],
 
-["Ella Fitzgerald & Louis Armstrong","Ella and Louis",1956,"Jazz",["Romantic","Cool"]],
+["Arcade Fire","Funeral",2004,"Indie Rock",["Melancholy","Energetic"],10],
 
-["Grateful Dead","Workingman's Dead",1970,"Rock",["Laid Back","Road Trip"]],
+["Lana Del Rey","Norman Fucking Rockwell!",2019,"Pop",["Melancholy","Late Night"],11],
 
-["Green Day","Dookie",1994,"Punk",["Energetic","Fun"]],
+["Miles Davis","In a Silent Way",1969,"Jazz",["Cool","Late Night"],12],
 
-["Billie Holiday","Solitude",1956,"Jazz",["Melancholy","Late Night"]],
+["Alice Coltrane","Journey in Satchidananda",1971,"Jazz",["Spiritual","Meditative"],13],
 
-["Kendrick Lamar","good kid, m.A.A.d city",2012,"Hip-Hop",["Energetic","Late Night"]],
+["Zero 7","When It Falls",2004,"Electronic",["Laid Back","Late Night"],14],
 
-["Neutral Milk Hotel","In the Aeroplane Over the Sea",1998,"Indie Rock",["Melancholy","Energetic"]],
+["Bon Iver","For Emma, Forever Ago",2007,"Indie Folk",["Melancholy","Quiet"],15],
 
-["Nick Drake","Pink Moon",1972,"Folk",["Melancholy","Quiet"]],
+["Nick Drake","Pink Moon",1972,"Folk",["Melancholy","Quiet"],16],
 
-["O Brother, Where Art Thou?","Original Soundtrack",2000,"Soundtrack",["Nostalgic","Road Trip"]],
+["Neutral Milk Hotel","In the Aeroplane Over the Sea",1998,"Indie Rock",["Melancholy","Energetic"],17],
 
-["Peter, Paul & Mary","The Very Best Of",1969,"Folk",["Laid Back","Nostalgic"]],
+["Stevie Wonder","Music of My Mind",1972,"Soul",["Romantic","Laid Back"],18],
 
-["The Postal Service","Give Up",2003,"Electronic",["Melancholy","Energetic"]],
+["Stevie Wonder","Talking Book",1972,"Soul",["Romantic","Late Night"],19],
 
-["Radiohead","OK Computer",1997,"Alternative",["Melancholy","Energetic"]],
+["Stevie Wonder","Songs in the Key of Life",1976,"Soul",["Energetic","Joyful"],20],
 
-["Radiohead","Kid A",2000,"Alternative",["Cool","Meditative"]],
+["Wilco","Yankee Hotel Foxtrot",2002,"Alternative",["Melancholy","Road Trip"],21],
 
-["Radiohead","In Rainbows",2007,"Alternative",["Romantic","Late Night"]],
+["Frank Sinatra & Antonio Carlos Jobim","Francis Albert Sinatra & Antonio Carlos Jobim",1967,"Jazz",["Romantic","Cool"],22],
 
-["Sade","Lovers Rock",2000,"R&B",["Romantic","Late Night"]],
+["The Postal Service","Give Up",2003,"Electronic",["Melancholy","Energetic"],23],
 
-["Frank Sinatra & Antonio Carlos Jobim","Francis Albert Sinatra & Antonio Carlos Jobim",1967,"Jazz",["Romantic","Cool"]],
+["The Beatles","Abbey Road",1969,"Rock",["Classic","Laid Back"],24],
 
-["Nina Simone","To Love Somebody",1969,"Soul",["Melancholy","Late Night"]],
+["Radiohead","OK Computer",1997,"Alternative",["Melancholy","Energetic"],25],
 
-["The Strokes","Is This It",2001,"Rock",["Energetic","Cool"]],
+["Radiohead","Kid A",2000,"Alternative",["Cool","Meditative"],26],
 
-["Sarah Vaughan & Clifford Brown","Sarah Vaughan with Clifford Brown",1954,"Jazz",["Romantic","Cool"]],
+["Radiohead","In Rainbows",2007,"Alternative",["Romantic","Late Night"],27],
 
-["Stevie Wonder","Music of My Mind",1972,"Soul",["Romantic","Laid Back"]],
+["Nina Simone","To Love Somebody",1969,"Soul",["Melancholy","Late Night"],28],
 
-["Stevie Wonder","Talking Book",1972,"Soul",["Romantic","Late Night"]],
+["Sarah Vaughan & Clifford Brown","Sarah Vaughan with Clifford Brown",1954,"Jazz",["Romantic","Cool"],29],
 
-["Stevie Wonder","Songs in the Key of Life",1976,"Soul",["Energetic","Joyful"]],
+["Kendrick Lamar","good kid, m.A.A.d city",2012,"Hip-Hop",["Energetic","Late Night"],30],
 
-["M. Ward","Hold Time",2009,"Indie Folk",["Laid Back","Road Trip"]],
+["Peter, Paul & Mary","The Very Best Of",1969,"Folk",["Laid Back","Nostalgic"],31],
 
-["Weezer","Weezer (Blue Album)",1994,"Rock",["Energetic","Nostalgic"]],
+["M. Ward","Hold Time",2009,"Indie Folk",["Laid Back","Road Trip"],32],
 
-["Wilco","Yankee Hotel Foxtrot",2002,"Alternative",["Melancholy","Road Trip"]],
+["April Smith","Songs for a Sinking Ship",2010,"Pop",["Energetic","Romantic"],33],
 
-["Zero 7","When It Falls",2004,"Electronic",["Laid Back","Late Night"]]
+["Billie Holiday","Solitude",1956,"Jazz",["Melancholy","Late Night"],34],
 
-].map(x=>({
+["O Brother, Where Art Thou?","Original Soundtrack",2000,"Soundtrack",["Nostalgic","Road Trip"],35],
+
+["Ella Fitzgerald & Louis Armstrong","Ella and Louis",1956,"Jazz",["Romantic","Cool"],36]
+
+];
+
+
+const albums=
+rawAlbums.map(x=>({
 
 artist:x[0],
 album:x[1],
 year:x[2],
 genre:x[3],
-moods:x[4]
+moods:x[4],
+historic:x[5],
+artwork:null
 
 }));
 
 
 let page=0;
+
 let sort="az";
 
 let genre=null;
@@ -793,6 +995,7 @@ let decade=null;
 let visibleAlbums=[];
 
 let dragging=false;
+
 let startX=0;
 let startY=0;
 let dx=0;
@@ -802,17 +1005,12 @@ let ignoreClick=false;
 const perPage=6;
 
 const host=
-document.getElementById("sheetHost");
+document.getElementById(
+"sheetHost"
+);
 
 
-function normalize(s){
-
-return s
-.toLowerCase()
-.replace(/[^a-z0-9]/g,"");
-
-}
-
+/* ---------- SPOTIFY ---------- */
 
 function spotify(a){
 
@@ -825,129 +1023,220 @@ a.artist+" "+a.album
 }
 
 
-/*
-Better artwork matching:
+/* ---------- ARTWORK ---------- */
 
-Instead of taking the first iTunes result,
-we inspect several results and choose the
-closest artist/title match.
-*/
+function normalize(s){
 
-async function artwork(a,img){
+return String(s)
+.toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.replace(/[^a-z0-9]/g,"");
 
-const query=
-encodeURIComponent(
-a.artist+" "+a.album
-);
+}
+
+
+async function resolveArtwork(a){
+
+if(
+a.artwork
+){
+
+return a.artwork;
+
+}
+
+
+const searchTerms=[
+
+a.artist+" "+a.album,
+
+a.album+" "+a.artist
+
+];
+
+
+for(
+const term
+of searchTerms
+){
 
 try{
 
 const response=
 await fetch(
+
 "https://itunes.apple.com/search?term="+
-query+
-"&entity=album&limit=15"
+encodeURIComponent(term)+
+"&entity=album&country=US&limit=25"
+
 );
+
 
 const data=
 await response.json();
+
 
 if(
 !data.results ||
 !data.results.length
 ){
-return;
+
+continue;
+
 }
 
 
 const targetArtist=
-normalize(a.artist);
+normalize(
+a.artist
+);
+
 
 const targetAlbum=
-normalize(a.album);
+normalize(
+a.album
+);
 
 
 let best=null;
-let bestScore=-1;
+
+let bestScore=-999;
 
 
 for(
-const result
+const r
 of data.results
 ){
 
 const ra=
 normalize(
-result.artistName || ""
+r.artistName || ""
 );
+
 
 const rt=
 normalize(
-result.collectionName || ""
+r.collectionName || ""
 );
 
 
 let score=0;
 
 
+/* artist scoring */
+
 if(
 ra===targetArtist
 ){
-score+=10;
+
+score+=20;
+
 }
 
 else if(
-ra.includes(targetArtist) ||
-targetArtist.includes(ra)
+ra.includes(
+targetArtist
+)
+||
+targetArtist.includes(
+ra
+)
 ){
-score+=6;
+
+score+=12;
+
 }
 
+
+/* title scoring */
 
 if(
 rt===targetAlbum
 ){
-score+=12;
+
+score+=25;
+
 }
 
 else if(
-rt.includes(targetAlbum) ||
-targetAlbum.includes(rt)
+rt.includes(
+targetAlbum
+)
+||
+targetAlbum.includes(
+rt
+)
 ){
-score+=7;
+
+score+=15;
+
 }
 
 
-/*
-Slight preference for releases near
-the expected original year.
-*/
+/* year scoring */
 
 if(
-result.releaseDate
+r.releaseDate
 ){
 
-const y=
+const resultYear=
 new Date(
-result.releaseDate
-).getFullYear();
+r.releaseDate
+)
+.getFullYear();
+
 
 const difference=
 Math.abs(
-y-a.year
+resultYear-a.year
 );
+
 
 if(
 difference===0
 ){
-score+=3;
+
+score+=6;
+
 }
 
 else if(
 difference<=2
 ){
-score+=2;
+
+score+=4;
+
 }
+
+else if(
+difference<=5
+){
+
+score+=1;
+
+}
+
+}
+
+
+/* discourage obvious deluxe variants */
+
+const title=
+(
+r.collectionName ||
+""
+)
+.toLowerCase();
+
+
+if(
+title.includes(
+"tribute"
+)
+){
+
+score-=20;
 
 }
 
@@ -957,7 +1246,8 @@ score>bestScore
 ){
 
 bestScore=score;
-best=result;
+
+best=r;
 
 }
 
@@ -969,20 +1259,21 @@ best &&
 best.artworkUrl100
 ){
 
-img.src=
+a.artwork=
 best.artworkUrl100
+
 .replace(
-"100x100bb",
+/100x100bb/,
 "600x600bb"
 )
+
 .replace(
-"100x100",
+/100x100/,
 "600x600"
 );
 
-img.classList.remove(
-"loading"
-);
+
+return a.artwork;
 
 }
 
@@ -991,7 +1282,7 @@ img.classList.remove(
 catch(error){
 
 console.log(
-"Artwork error:",
+"Artwork lookup failed",
 a.artist,
 a.album
 );
@@ -1001,12 +1292,45 @@ a.album
 }
 
 
+return null;
+
+}
+
+
+async function loadArtwork(
+a,
+img
+){
+
+const url=
+await resolveArtwork(a);
+
+
+if(
+url
+){
+
+img.src=url;
+
+img.classList.remove(
+"loading"
+);
+
+}
+
+}
+
+
+/* ---------- FILTER + SORT ---------- */
+
 function filtered(){
 
 const q=
 (
 document
-.getElementById("searchBox")
+.getElementById(
+"searchBox"
+)
 .value
 ||
 ""
@@ -1015,20 +1339,31 @@ document
 
 
 let v=
-albums.filter(a=>
+albums.filter(
+a=>
 
-(!genre ||
-a.genre===genre)
-
-&&
-
-(!mood ||
-a.moods.includes(mood))
+(
+!genre ||
+a.genre===genre
+)
 
 &&
 
-(!decade ||
-Math.floor(a.year/10)*10===decade)
+(
+!mood ||
+a.moods.includes(
+mood
+)
+)
+
+&&
+
+(
+!decade ||
+Math.floor(
+a.year/10
+)*10===decade
+)
 
 &&
 
@@ -1041,16 +1376,18 @@ a.artist+
 a.album
 )
 .toLowerCase()
-.includes(q)
+.includes(
+q
+)
 
 )
 
 );
 
 
-if(
-sort==="az"
-){
+switch(sort){
+
+case "az":
 
 v.sort(
 (a,b)=>
@@ -1059,12 +1396,10 @@ b.artist
 )
 );
 
-}
+break;
 
 
-if(
-sort==="za"
-){
+case "za":
 
 v.sort(
 (a,b)=>
@@ -1073,12 +1408,10 @@ a.artist
 )
 );
 
-}
+break;
 
 
-if(
-sort==="old"
-){
+case "old":
 
 v.sort(
 (a,b)=>
@@ -1089,12 +1422,10 @@ b.artist
 )
 );
 
-}
+break;
 
 
-if(
-sort==="new"
-){
+case "new":
 
 v.sort(
 (a,b)=>
@@ -1105,6 +1436,28 @@ b.artist
 )
 );
 
+break;
+
+
+case "historicOld":
+
+v.sort(
+(a,b)=>
+a.historic-b.historic
+);
+
+break;
+
+
+case "historicNew":
+
+v.sort(
+(a,b)=>
+b.historic-a.historic
+);
+
+break;
+
 }
 
 
@@ -1113,18 +1466,27 @@ return v;
 }
 
 
+/* ---------- BUILD PAGE ---------- */
+
 function makeSheet(items){
 
 const sheet=
-document.createElement("div");
+document.createElement(
+"div"
+);
 
-sheet.className="sheet";
+sheet.className=
+"sheet";
 
 
 const plastic=
-document.createElement("div");
+document.createElement(
+"div"
+);
 
-plastic.className="plastic";
+plastic.className=
+"plastic";
+
 
 sheet.appendChild(
 plastic
@@ -1143,20 +1505,28 @@ return sheet;
 }
 
 
-items.forEach(a=>{
+items.forEach(
+a=>{
 
 const pocket=
-document.createElement("div");
+document.createElement(
+"div"
+);
+
 
 pocket.className=
 "album";
 
 
 const img=
-document.createElement("img");
+document.createElement(
+"img"
+);
+
 
 img.className=
 "cover loading";
+
 
 img.alt=
 a.artist+
@@ -1190,18 +1560,21 @@ pocket
 );
 
 
-artwork(
+loadArtwork(
 a,
 img
 );
 
-});
+}
+);
 
 
 return sheet;
 
 }
 
+
+/* ---------- RENDER ---------- */
 
 function render(){
 
@@ -1229,22 +1602,23 @@ totalPages-1;
 }
 
 
-host.innerHTML="";
+host.innerHTML=
+"";
 
 
 const start=
 page*perPage;
 
 
-const items=
+const sheet=
+makeSheet(
+
 visibleAlbums.slice(
 start,
 start+perPage
+)
+
 );
-
-
-const sheet=
-makeSheet(items);
 
 
 host.appendChild(
@@ -1253,16 +1627,21 @@ sheet
 
 
 document
-.getElementById("count")
+.getElementById(
+"count"
+)
 .textContent=
+
 visibleAlbums.length+
 " ALBUMS";
 
 
 document
-.getElementById("pageNumber")
+.getElementById(
+"pageNumber"
+)
 .textContent=
-"PAGE "+
+
 (page+1)+
 " / "+
 totalPages;
@@ -1275,6 +1654,8 @@ sheet
 }
 
 
+/* ---------- SWIPE ---------- */
+
 function bindSwipe(sheet){
 
 sheet.addEventListener(
@@ -1283,19 +1664,18 @@ e=>{
 
 dragging=true;
 
-startX=
-e.clientX;
-
-startY=
-e.clientY;
+startX=e.clientX;
+startY=e.clientY;
 
 dx=0;
 
 ignoreClick=false;
 
+
 sheet.setPointerCapture(
 e.pointerId
 );
+
 
 sheet.style.transition=
 "none";
@@ -1311,7 +1691,9 @@ e=>{
 if(
 !dragging
 ){
+
 return;
+
 }
 
 
@@ -1341,19 +1723,26 @@ e.preventDefault();
 
 
 const rotation=
-dx/28;
+dx/30;
 
 
 const lift=
 Math.min(
-10,
-Math.abs(dx)/18
+9,
+Math.abs(dx)/20
 );
 
 
 sheet.style.transform=
-`translate3d(${dx}px,-${lift}px,0)
- rotate(${rotation}deg)`;
+
+`translate3d(
+${dx}px,
+-${lift}px,
+0
+)
+rotate(
+${rotation}deg
+)`;
 
 }
 
@@ -1368,7 +1757,9 @@ sheet.addEventListener(
 if(
 !dragging
 ){
+
 return;
+
 }
 
 
@@ -1489,16 +1880,15 @@ sheet.style.opacity=
 
 
 sheet.style.transform=
-`
-translate3d(
+
+`translate3d(
 ${direction===1 ? "-125vw" : "125vw"},
--15px,
+-14px,
 0
 )
 rotate(
-${direction===1 ? "-13deg" : "13deg"}
-)
-`;
+${direction===1 ? "-12deg" : "12deg"}
+)`;
 
 
 setTimeout(
@@ -1518,16 +1908,15 @@ next.style.transition=
 
 
 next.style.transform=
-`
-translate3d(
-${direction===1 ? "22px" : "-22px"},
+
+`translate3d(
+${direction===1 ? "20px" : "-20px"},
 0,
 0
 )
 rotate(
-${direction===1 ? "1.5deg" : "-1.5deg"}
-)
-`;
+${direction===1 ? "1.3deg" : "-1.3deg"}
+)`;
 
 
 requestAnimationFrame(
@@ -1566,6 +1955,8 @@ ignoreClick=false;
 }
 
 
+/* ---------- RANDOM ---------- */
+
 function randomAlbum(){
 
 visibleAlbums=
@@ -1575,7 +1966,9 @@ filtered();
 if(
 !visibleAlbums.length
 ){
+
 return;
+
 }
 
 
@@ -1592,6 +1985,8 @@ spotify(a);
 
 }
 
+
+/* ---------- PANELS ---------- */
 
 function openPanel(id){
 
@@ -1635,6 +2030,8 @@ render();
 
 }
 
+
+/* ---------- FILTER MENU ---------- */
 
 function addFilter(
 label,
@@ -1685,6 +2082,8 @@ document.getElementById(
 "filters"
 );
 
+
+/* GENRE */
 
 f.innerHTML=
 '<div class="section">Genre</div>';
