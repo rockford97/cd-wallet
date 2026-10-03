@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My CD Wallet</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: #202124;
+    color: #f2f2f2;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+}
+
+header {
+    padding: 18px 18px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+h1 {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: .08em;
+    font-weight: 600;
+}
+
+#count {
+    font-size: 12px;
+    color: #aaaeb4;
+}
+
+.wallet {
+    margin: 5px 12px 90px;
+    padding: 15px 12px;
+    border: 1px solid #484b50;
+    border-radius: 9px;
+    background: #292b2f;
+}
+
+.page {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 12px;
+}
+
+.album {
+    min-width: 0;
+    cursor: pointer;
+}
+
+.sleeve {
+    padding: 5px;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.035);
+}
+
+.cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: #34363a;
+}
+
+.artist {
+    margin-top: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.title {
+    margin-top: 2px;
+    color: #aaaeb4;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.page-number {
+    margin-top: 16px;
+    text-align: center;
+    color: #aaaeb4;
+    font-size: 11px;
+}
+
+.toolbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+    background: #1f2023;
+    border-top: 1px solid #494b50;
+    display: flex;
+    justify-content: space-around;
+}
+
+.tool {
+    border: 0;
+    background: none;
+    color: #f2f2f2;
+    font-size: 10px;
+    text-transform: uppercase;
+    padding: 5px;
+}
+
+.tool strong {
+    display: block;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 3px;
+}
+
+.panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    background: #202124;
+    padding: 22px 18px;
+    overflow-y: auto;
+}
+
+.panel.open { display: block; }
+
+.close {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    border: 0;
+    background: none;
+    color: white;
+    font-size: 28px;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 15px 0;
+    border: 0;
+    border-bottom: 1px solid #414348;
+    background: none;
+    color: white;
+    font-size: 16px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background: #2a2c30;
+    color: white;
+    border: 1px solid #4a4d52;
+    border-radius: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>MY CD WALLET</h1>
+    <div id="count"></div>
+</header>
+
+<div class="wallet" id="wallet">
+    <div class="page" id="page"></div>
+    <div class="page-number" id="pageNumber"></div>
+</div>
+
+<div class="toolbar">
+    <button class="tool" onclick="randomAlbum()">
+        <strong>↯</strong>Random
+    </button>
+
+    <button class="tool" onclick="openPanel('filter')">
+        <strong>≡</strong>Filter
+    </button>
+
+    <button class="tool" onclick="openPanel('sort')">
+        <strong>↕</strong>Sort
+    </button>
+
+    <button class="tool" onclick="openPanel('search')">
+        <strong>⌕</strong>Search
+    </button>
+
+    <button class="tool" onclick="openPanel('add')">
+        <strong>＋</strong>Add
+    </button>
+</div>
+
+<div class="panel" id="sort">
+<button class="close" onclick="closePanels()">×</button>
+<h2>Sort</h2>
+
+<button class="option" onclick="setSort('az')">Artist A–Z</button>
+<button class="option" onclick="setSort('za')">Artist Z–A</button>
+<button class="option" onclick="setSort('old')">Release date — oldest first</button>
+<button class="option" onclick="setSort('new')">Release date — newest first</button>
+</div>
+
+<div class="panel" id="search">
+<button class="close" onclick="closePanels()">×</button>
+<h2>Search</h2>
+<input id="searchBox" placeholder="Artist or album" oninput="render()">
+</div>
+
+<div class="panel" id="filter">
+<button class="close" onclick="closePanels()">×</button>
+<h2>Filter</h2>
+<div id="filters"></div>
+</div>
+
+<div class="panel" id="add">
+<button class="close" onclick="closePanels()">×</button>
+<h2>Add Album</h2>
+<p>Album search will be added in the next version.</p>
+</div>
+
+<script>
+
+const albums = [
+["Alice Coltrane","Journey in Satchidananda",1971,"Jazz"],
+["April Smith","Songs for a Sinking Ship",2010,"Pop"],
+["Arcade Fire","Funeral",2004,"Indie"],
+["The Beatles","Abbey Road",1969,"Rock"],
+["Erykah Badu","Baduizm",1997,"R&B"],
+["Bon Iver","For Emma, Forever Ago",2007,"Folk"],
+["Cannonball Adderley","Somethin' Else",1958,"Jazz"],
+["De La Soul","Stakes Is High",1996,"Hip-Hop"],
+["Digable Planets","Reachin'",1993,"Hip-Hop"],
+["Miles Davis","In a Silent Way",1969,"Jazz"],
+["Lana Del Rey","Norman Fucking Rockwell!",2019,"Pop"],
+["Ella Fitzgerald & Louis Armstrong","Ella and Louis",1956,"Jazz"],
+["Grateful Dead","Workingman's Dead",1970,"Rock"],
+["Green Day","Dookie",1994,"Rock"],
+["Billie Holiday","Solitude",1956,"Jazz"],
+["Kendrick Lamar","good kid, m.A.A.d city",2012,"Hip-Hop"],
+["Neutral Milk Hotel","In the Aeroplane Over the Sea",1998,"Indie"],
+["Nick Drake","Pink Moon",1972,"Folk"],
+["O Brother, Where Art Thou?","Original Soundtrack",2000,"Soundtrack"],
+["Peter, Paul & Mary","The Very Best Of",1969,"Folk"],
+["The Postal Service","Give Up",2003,"Electronic"],
+["Radiohead","OK Computer",1997,"Alternative"],
+["Radiohead","Kid A",2000,"Alternative"],
+["Radiohead","In Rainbows",2007,"Alternative"],
+["Sade","Lovers Rock",2000,"R&B"],
+["Frank Sinatra & Antonio Carlos Jobim","Francis Albert Sinatra & Antonio Carlos Jobim",1967,"Jazz"],
+["Nina Simone","To Love Somebody",1969,"Soul"],
+["The Strokes","Is This It",2001,"Rock"],
+["Sarah Vaughan & Clifford Brown","Sarah Vaughan with Clifford Brown",1954,"Jazz"],
+["Stevie Wonder","Music of My Mind",1972,"Soul"],
+["Stevie Wonder","Talking Book",1972,"Soul"],
+["Stevie Wonder","Songs in the Key of Life",1976,"Soul"],
+["M. Ward","Hold Time",2009,"Indie"],
+["Weezer","Weezer (Blue Album)",1994,"Rock"],
+["Wilco","Yankee Hotel Foxtrot",2002,"Alternative"],
+["Zero 7","When It Falls",2004,"Electronic"]
+].map(x => ({
+    artist:x[0],
+    album:x[1],
+    year:x[2],
+    genre:x[3]
+}));
+
+let page = 0;
+let sort = "az";
+let activeGenre = null;
+let visibleAlbums = [];
+
+function spotify(album) {
+    const search = encodeURIComponent(album.artist + " " + album.album);
+    window.location.href =
+        "https://open.spotify.com/search/" + search;
+}
+
+function artwork(album,img) {
+
+    const search =
+        encodeURIComponent(album.artist+" "+album.album);
+
+    fetch(
+        "https://itunes.apple.com/search?term="+
+        search+
+        "&entity=album&limit=1"
+    )
+    .then(r=>r.json())
+    .then(data=>{
+        if(data.results.length){
+            img.src =
+            data.results[0].artworkUrl100
+            .replace("100x100","600x600");
+        }
+    });
+}
+
+function render(){
+
+    const search =
+        document.getElementById("searchBox").value.toLowerCase();
+
+    visibleAlbums = albums.filter(a=>{
+
+        if(activeGenre && a.genre !== activeGenre)
+            return false;
+
+        if(search &&
+           !(a.artist+" "+a.album)
+           .toLowerCase()
+           .includes(search))
+            return false;
+
+        return true;
+    });
+
+    if(sort==="az")
+        visibleAlbums.sort((a,b)=>a.artist.localeCompare(b.artist));
+
+    if(sort==="za")
+        visibleAlbums.sort((a,b)=>b.artist.localeCompare(a.artist));
+
+    if(sort==="old")
+        visibleAlbums.sort((a,b)=>a.year-b.year);
+
+    if(sort==="new")
+        visibleAlbums.sort((a,b)=>b.year-a.year);
+
+    const pages = Math.ceil(visibleAlbums.length/4);
+
+    if(page >= pages) page = Math.max(0,pages-1);
+
+    const current =
+        visibleAlbums.slice(page*4,page*4+4);
+
+    const container =
+        document.getElementById("page");
+
+    container.innerHTML="";
+
+    current.forEach(album=>{
+
+        const div=document.createElement("div");
+        div.className="album";
+
+        div.innerHTML=`
+        <div class="sleeve">
+            <img class="cover">
+        </div>
+        <div class="artist">${album.artist}</div>
+        <div class="title">${album.album} · ${album.year}</div>
+        `;
+
+        div.onclick=()=>spotify(album);
+
+        container.appendChild(div);
+
+        artwork(album,div.querySelector("img"));
+    });
+
+    document.getElementById("count").textContent =
+        visibleAlbums.length+" ALBUMS";
+
+    document.getElementById("pageNumber").textContent =
+        pages ? "PAGE "+(page+1)+" OF "+pages : "NO ALBUMS";
+}
+
+function setSort(type){
+    sort=type;
+    page=0;
+    closePanels();
+    render();
+}
+
+function randomAlbum(){
+
+    if(!visibleAlbums.length) return;
+
+    const album =
+        visibleAlbums[
+        Math.floor(Math.random()*visibleAlbums.length)
+        ];
+
+    spotify(album);
+}
+
+function openPanel(id){
+    closePanels();
+    document.getElementById(id).classList.add("open");
+}
+
+function closePanels(){
+    document.querySelectorAll(".panel")
+    .forEach(p=>p.classList.remove("open"));
+}
+
+const genres =
+    [...new Set(albums.map(a=>a.genre))].sort();
+
+const filters =
+    document.getElementById("filters");
+
+const all=document.createElement("button");
+all.className="option";
+all.textContent="All genres";
+all.onclick=()=>{
+    activeGenre=null;
+    page=0;
+    closePanels();
+    render();
+};
+filters.appendChild(all);
+
+genres.forEach(genre=>{
+
+    const b=document.createElement("button");
+
+    b.className="option";
+    b.textContent=genre;
+
+    b.onclick=()=>{
+        activeGenre=genre;
+        page=0;
+        closePanels();
+        render();
+    };
+
+    filters.appendChild(b);
+});
+
+
+let startX=0;
+
+document.getElementById("wallet")
+.addEventListener("touchstart",e=>{
+    startX=e.touches[0].clientX;
+},{passive:true});
+
+document.getElementById("wallet")
+.addEventListener("touchend",e=>{
+
+    const change =
+        e.changedTouches[0].clientX-startX;
+
+    const totalPages =
+        Math.ceil(visibleAlbums.length/4);
+
+    if(change < -60 && page < totalPages-1){
+        page++;
+        render();
+    }
+
+    if(change > 60 && page > 0){
+        page--;
+        render();
+    }
+
+});
+
+render();
+
+</script>
+</body>
+</html>
