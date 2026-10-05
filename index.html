@@ -937,11 +937,7 @@ async function loadAlbums() {
       from your Google Sheet.
     */
 
-    const url =
-      "https://docs.google.com/spreadsheets/d/" +
-      SHEET_ID +
-      "/gviz/tq?tqx=out:csv&sheet=Albums&cacheBust=" +
-      Date.now();
+  const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=1264302233`;
 
 
     const response =
